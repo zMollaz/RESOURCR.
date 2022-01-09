@@ -62,3 +62,10 @@ rgba(163, 208, 219, 1) 100%
 .card_large {
   grid-row-end: span var(--card_large);
 }
+
+.post {
+  img {
+    width: 100%;
+    display: block;
+  }
+}
