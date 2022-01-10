@@ -62,9 +62,15 @@ rgba(163, 208, 219, 1) 100%
   grid-row-end: span var(--card_large);
 }
 
-.post {
+.card {
+  .imgContainer {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+  }
   img {
     width: 100%;
-    display: block;
+    height: 100%;
+    object-fit: cover;
   }
 }
