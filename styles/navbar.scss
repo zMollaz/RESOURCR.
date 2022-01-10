@@ -1,0 +1,53 @@
+.navbar-logo {
+  font-size: 40px;
+  color: white;
+  font-family: 'Patua One', cursive;
+}
+
+// .search-bar {
+//   display: flex;
+//   align-items: center;
+
+// }
+
+.edit-profile {
+  display: flex;
+
+}
+
+.user-icon {
+  color: white;
+  font-size: 30px;
+}
+
+.topnav {
+  height: 50px;
+  display: flex;
+  position: fixed; /* Set the navbar to fixed position */
+  top: 0; /* Position the navbar at the top of the page */
+  width: 100%; /* Full width */
+  justify-content: space-around;
+  align-items: center;
+  z-index: 3;
+  background-color: #2D4057;
+}
+
+.topnav a {
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.topnav a.active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+
