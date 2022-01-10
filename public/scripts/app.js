@@ -8,8 +8,10 @@ const getPosts = () => {
 const createPostElement = (post) => {
   console.log("post", post);
   let $post = `
-  <div class="card">
+  <div class="card card_medium">
+    <div class="imgContainer">
     <img src="${post.img_src}">
+    </div>
   </div>
 
 
