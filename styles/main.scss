@@ -10,34 +10,52 @@
 }
 
 body {
+
   margin: 0;
   padding: 0;
-  background-color: white;
-
+  background-color: #4097AA;
+  font-family: 'Roboto Slab', serif;
+  font-size: 15px;
 }
 
 .post-container {
+
+  min-height: 100%;
   margin: 0;
   padding: 0;
   width: 80vw;
   position: absolute;
   left: 50%;
-  bottom: 0;
+
   transform: translateX(-50%);
+
   display: grid;
   grid-template-columns: repeat(auto-fill, var(--card_width));
   grid-auto-rows: var(--row_increment);
   justify-content: center;
-  background: white;
+
+  background: #FA9483;
+
 }
 
 .card {
   padding: 0px;
   margin: 15px 10px;
   border-radius: var(--card_border_radius);
-  background-color: green;
-  border-style: solid;
-  border-color: black;
+
+  background-color: #F3DECA;
+
+}
+
+.new-post-btn {
+  font-size: 40px;
+  display: flex;
+  color: white;
+
+}
+
+.card:hover {
+  box-shadow: 8px 8px #888888;
 }
 
 .card_small {
@@ -55,7 +73,7 @@ body {
 .imgContainer {
   display: flex;
   flex-direction: column;
-  background-color: #bd1111;
+  background-color: #F3DECA;
   border-radius: var(--card_border_radius);
   position:relative;
   top:0;
