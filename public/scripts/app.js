@@ -29,11 +29,19 @@ const createPostElement = (post) => {
   <div class="card card_medium">
   <div class="imgContainer">
   <img src="${post.img_src}" class="image">
-  <div class="post_rating">${printStars(post)}</div>
+  <div class="bottomComponents">
+    <span>
+    <i class="fas fa-heart"></i>
+    <span class= "likesCounter">${post.total_likes}</span>
+    </span>
+  <span class="post_rating">${printStars(post)}</span>
+    </div>
     </div>
   </div>`;
   return $post;
 };
+
+
 
 const renderPosts = (posts) => {
   console.log("posts", posts);
