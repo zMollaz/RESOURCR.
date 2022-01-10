@@ -67,9 +67,11 @@ body {
    flex-direction: column;
    justify-self:stretch;
    width: 100%;
-   height: 100%;
+   height: 90%;
    object-fit:cover;
    border-radius: var(--card_border_radius);
+   border-bottom-left-radius: 1%;
+   border-bottom-right-radius: 1%;
   }
   .post_rating {
     display: flex;
@@ -77,4 +79,16 @@ body {
     align-self: flex-end;
     padding-right: 10px;
   }
+}
+
+.bottomComponents {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.fa-heart {
+  margin-top: 20%;
+  padding-left: 10px;
 }
