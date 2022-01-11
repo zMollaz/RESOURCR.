@@ -1,11 +1,11 @@
 // Client facing scripts here
 
 //Helper function
-$(".modal").hide();
+$(".post-modal").hide();
 
 const closeModal = () => {
   $(".modal-container").empty();
-  $(".modal").hide();
+  $(".post-modal").hide();
 }
 
 const printStars = (post) => {
@@ -45,7 +45,7 @@ const getPostsByTopic = (topic) => {
 //HTML builder functions
 const createPostElements = (post) => {
   const { id, img_src, total_likes } = post;
-  let $post = `
+  return $(`
   <div class="card card_medium" data-id= ${id}>
   <div class="imgContainer">
   <img src=${img_src} />
@@ -60,13 +60,13 @@ const createPostElements = (post) => {
     </div>
     </div>
     </div>
-    `;
-  return $post;
+    `);
 };
 
 const createPostModalElements = (post) => {
   const { title, url_src, description, comment } = post;
-  return $(`<div class="blue-background">
+  return $(`
+  <div class="blue-background">
   <div class="modal-title">${title}</div>
   <div class="modal-url">${url_src}</div>
   <div class="modal-description">${description}</div>
@@ -82,7 +82,26 @@ const createPostModalElements = (post) => {
       <i class="fas fa-star"></i>
   </div>
   </div>
-   </div>`)
+   </div>`);
+};
+
+const createNewPostModalElements = () => {
+  return $(`
+  <div class="blue-background">
+    <h2>Create New Resource</h2>
+    <form>
+    <input class="text" placeholder="Add title">
+    <input class="text" placeholder="Add URL">
+    <input class="text" placeholder="Add description">
+    <input class="text" placeholder="Add image URL">
+    <select name="topics" id="topics">
+      <option value="Coding">Coding</option>
+      <option value="Food">Food</option>
+      <option value="Movies">Movies</option>
+    </select>
+    <button type="button" class="btn btn-secondary">Secondary</button>
+    </form>
+  </div>`);
 }
 
 
@@ -96,6 +115,18 @@ const renderPosts = (posts) => {
 };
 
 const renderPostModal = (id) => {
+  // getPosts()
+  //   .then((data) => {
+  //     const parsedData = data.posts;
+  //     parsedData.forEach(post => {
+  //       if (post.id == id) {
+          $(".modal-container").append(createPostModalElements(post))
+        // }
+      // });
+    // })
+};
+
+const renderNewPostModal = (id) => {
   getPosts()
     .then((data) => {
       const parsedData = data.posts;
@@ -117,7 +148,7 @@ $(document).ready(() => {
   })
     .then(() => {
       $(".card").on("click", function () {
-        $(".modal").show();
+        $(".post-modal").show();
         const id = $(this).attr('data-id');
         renderPostModal(id)
 
@@ -140,7 +171,7 @@ $(document).ready(() => {
     })
       .then(() => {
         $(".card").on("click", function () {
-          $(".modal").show();
+          $(".post-modal").show();
           const id = $(this).attr('data-id');
           renderPostModal(id)
           $(".close-modal").click(closeModal);
