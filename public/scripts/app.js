@@ -44,9 +44,11 @@ const createPostElement = (post) => {
   <div class="imgContainer">
   <img src=${img_src} />
   <div class="bottomComponents">
+  <div class="heartHover">
     <span>
     <i class="fas fa-heart"></i>
     <span class= "likesCounter">${total_likes}</span>
+    </div>
     </span>
   <span class="post_rating">${printStars(post)}</span>
     </div>
@@ -117,6 +119,7 @@ $(document).ready(() => {
         $(".close-modal").click(closeModal);
       })
     })
+
 
 
   //search function

@@ -13,7 +13,8 @@ body {
   position: relative;
   margin: 0;
   padding: 0;
-  background-color: #4097AA;
+  background-color: #4097AA !important;
+  background-image: url("https://www.transparenttextures.com/patterns/white-wave.png") !important;
   font-family: 'Roboto Slab', serif;
   font-size: 15px;
 }
@@ -26,7 +27,7 @@ body {
   width: 80vw;
   position: absolute;
   left: 50%;
-
+  top: 25px;
   transform: translateX(-50%);
 
   display: grid;
@@ -48,10 +49,12 @@ body {
 }
 
 .new-post-btn {
-  font-size: 40px;
+  font-size: 60px;
   display: flex;
   color: white;
-
+  position: absolute;
+  bottom: 2%;
+  right: 11%;
 }
 
 .card:hover {
@@ -110,3 +113,6 @@ body {
   padding-left: 10px;
 }
 
+.heartHover :hover {
+color: red;
+}

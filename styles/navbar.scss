@@ -4,13 +4,8 @@
   font-family: 'Patua One', cursive;
 }
 
-// .search-bar {
-//   display: flex;
-//   align-items: center;
 
-// }
-
-.edit-profile {
+.navbar-links {
   display: flex;
 
 }
@@ -18,14 +13,16 @@
 .user-icon {
   color: white;
   font-size: 30px;
+  justify-content: flex-end;
 }
+
 
 .topnav {
   height: 50px;
   display: flex;
-  position: fixed; /* Set the navbar to fixed position */
-  top: 0; /* Position the navbar at the top of the page */
-  width: 100%; /* Full width */
+  position: fixed;
+  top: 0;
+  width: 100%;
   justify-content: space-around;
   align-items: center;
   z-index: 3;
@@ -40,14 +37,55 @@
 
 }
 
-.topnav a:hover {
-  background-color: #ddd;
-  color: black;
+
+//nav links underline
+*{
+  font-family: 'Poppins', sans-serif;
 }
 
-.topnav a.active {
-  background-color: #04AA6D;
-  color: white;
+body,
+html{
+  height: 100%;
 }
 
+body{
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fafafa;
+}
+
+p{
+  text-align: center;
+}
+
+a{
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.underline{
+  position: relative;
+}
+
+.underline::before{
+  content: '';
+  position: absolute;
+  bottom: 20%;
+  right: 0;
+  width: 0;
+  height: 2px;
+  background-color: #ffffff;
+  transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .underline:hover::before{
+    left: 0;
+    right: auto;
+    width: 100%;
+  }
+}
 

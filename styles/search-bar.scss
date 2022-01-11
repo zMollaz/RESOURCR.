@@ -1,8 +1,8 @@
 //Vars
-:root {
+.searchBarButton, #search {
   --rad: 0.7rem;
   --dur: 0.3s;
-  --color-dark: #4097aa;
+  --color-dark: black;
   --color-light: #fff;
   --color-brand: #fa9483;
   --font-family: "Roboto Slab", serif;
@@ -10,6 +10,17 @@
   --btn-width: 5rem;
   --bez: cubic-bezier(0, 0, 0.43, 1.49);
 }
+// :root {
+//   --rad: 0.7rem;
+//   --dur: 0.3s;
+//   --color-dark: black;
+//   --color-light: #fff;
+//   --color-brand: #fa9483;
+//   --font-family: "Roboto Slab", serif;
+//   --height: 3rem;
+//   --btn-width: 5rem;
+//   --bez: cubic-bezier(0, 0, 0.43, 1.49);
+// }
 
 // Setup
 body {

@@ -1,5 +1,5 @@
 .modal {
-  background-color: hsla(0, 4%, 10%, 0.592);
+  background-color: hsla(0, 7%, 3%, 0.726);
   position: fixed;
   height: 100vh;
   width: 100vw;
@@ -22,23 +22,39 @@
 }
 
 .modal-container {
-  background-color: blue;
+  background-color: #2D4057;
   width: 80%;
   height: 60%;
+
 }
- .modal-title {
+
+.modal-title {
   text-align: center;
-  font-size: bold;
+  font-size: 40px;
+
 }
 
-.modal-likes-rating
- {
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   background-color: green;
- }
+.modal-url {
+  text-align: center;
+  font-size: 20px;
+}
 
- .ratings {
-   display: flex;
+.modal-description {
+  text-align: center;
+  padding: 0 20px;
+}
+
+.modal-comments {
+  text-align: center;
+}
+
+.modal-likes-rating{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #2D4057
+}
+
+.ratings {
+  display: flex;
  }
