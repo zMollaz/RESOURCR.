@@ -65,6 +65,10 @@ const renderModal = (post) => {
   <div class="modal-url">${url_src}</div>
   <div class="modal-description">${description}</div>
   <div class="modal-comments">${comment}</div>
+  <div class="comment-textbox">
+  <form>
+  <textarea class="text" placeholder="Add comment"></textarea>
+  </form>
   <div class="modal-likes-rating">
     <i class="fas fa-heart"></i>
     <div class="ratings">
