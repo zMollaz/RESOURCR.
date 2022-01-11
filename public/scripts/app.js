@@ -1,10 +1,10 @@
 // Client facing scripts here
 
-//Helper function
+//Entry point functions
 $(".post-modal").hide();
 $(".new-post-modal").hide();
 
-
+//Helper function
 const closeModal = () => {
   $(".modal-container").empty();
   $(".post-modal").hide();
@@ -94,18 +94,21 @@ const createPostModalElements = (post) => {
 const createNewPostModalElements = () => {
   return $(`
   <div class="blue-background">
-    <h2>Create New Resource</h2>
-    <form>
-    <input class="text" placeholder="Add title">
-    <input class="text" placeholder="Add URL">
-    <input class="text" placeholder="Add description">
-    <input class="text" placeholder="Add image URL">
+  <h2>Create New Resource</h2>
+  <form class="new-post-form">
+    <input class="new-post-text" placeholder="Add title" /></a>
+    <input class="new-post-text" placeholder="Add URL" />
+    <input class="new-post-text" placeholder="Add description" />
+    <input class="new-post-text" placeholder="Add image URL" />
+    <div class="drop-down">
+    <label for="topics">Topics</label>
     <select name="topics" id="topics">
       <option value="Coding">Coding</option>
       <option value="Food">Food</option>
       <option value="Movies">Movies</option>
     </select>
-    <button type="button" class="btn btn-secondary">Secondary</button>
+    </div>
+    <button type="submit" class="btn btn-secondary">Submit</button>
     </form>
   </div>`);
 }
@@ -120,7 +123,6 @@ const renderPosts = (posts) => {
   }
 };
 
-
 const renderPostModal = (id) => {
   getPosts()
     .then((data) => {
@@ -134,15 +136,7 @@ const renderPostModal = (id) => {
 };
 
 const renderNewPostModal = () => {
-  // getPosts()
-  //   .then((data) => {
-  //     const parsedData = data.posts;
-  //     parsedData.forEach(post => {
-  //       if (post.id == id) {
-          $(".new-post-modal-container").append(createNewPostModalElements())
-        // }
-      // });
-    // })
+  $(".new-post-modal-container").append(createNewPostModalElements())
 };
 
 //Document.ready
@@ -158,10 +152,10 @@ $(document).ready(() => {
       $(".card").on("click", function () {
         $(".post-modal").show();
         const id = $(this).attr('data-id');
-        renderPostModal(id)
-
+        renderPostModal(id);
         $(".close-modal").click(closeModal);
       })
+
       //New post modal interactions
       $(".new-post-btn").on("click", function () {
         $(".new-post-modal").show();
