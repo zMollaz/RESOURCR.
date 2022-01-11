@@ -14,7 +14,6 @@
   <link rel="stylesheet" href="/styles/main.css" type="text/css" />
   <link rel="stylesheet" href="/styles/layout.css" type="text/css" />
   <link rel="stylesheet" href="/styles/navbar.css" type="text/css" />
-  <link rel="stylesheet" href="/styles/dropdown-resources.css" type="text/css" />
   <link rel="stylesheet" href="/styles/search-bar.css" type="text/css" />
   <link rel="stylesheet" href="/styles/card-modal.css" type="text/css" />
 
@@ -22,7 +21,7 @@
   <script type="text/javascript" src="/scripts/app.js" defer></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Patua+One&family=Roboto+Slab:wght@200&display=swap"
     rel="stylesheet">
@@ -57,29 +56,20 @@
   <!-- This is the modal end -->
 
   <div class="topnav">
-    <a class="navbar-logo">RESOURCR.</span></a>
+    <a href="#home" class="navbar-logo">RESOURCR.</a>
     <div class="search-bar">
       <form onsubmit="event.preventDefault();" role="search">
         <label for="search">Search for stuff</label>
         <input id="search" type="search" placeholder="Search..." autofocus required />
-        <button type="submit">Go</button>
+        <button class="searchBarButton" type="submit">Go</button>
       </form>
-
-    </div>
-    <div class="dropdown">
-      <button class="dropbtn">Resources
-        <i class="fa fa-caret-down"></i>
-      </button>
-      <div class="dropdown-content">
-        <a href="#">My Created Resources</a>
-        <a href="#">My Liked Resources</a>
-      </div>
     </div>
 
-    <div class="edit-profile">
-      <a href="#EditProfile">My Likes</a>
-      <a href="#EditProfile">My Resources</a>
-      <a href="#EditProfile">Edit Profile</a>
+    <div class="navbar-links">
+      <a href="#MyLikes" class="underline">My Likes</a>
+      <a href="#MyResources" class="underline">My Created Resources</a>
+      <a href="#EditProfile" class="underline">Edit Profile</a>
+      <p>
 
     </div>
     <div class="user-icon">
@@ -89,11 +79,12 @@
 
 
   <div class="post-container">
-    <div class="new-post-btn">
-      <i class="fas fa-plus"></i>
-      <!-- posts are generated from app.js -->
-    </div>
+    <!-- posts are generated from app.js -->
   </div>
+  <div class="new-post-btn">
+    <i class="fas fa-plus"></i>
+  </div>
+
 </body>
 
 </html>
