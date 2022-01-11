@@ -2,10 +2,16 @@
 
 //Helper function
 $(".post-modal").hide();
+$(".new-post-modal").hide();
+
 
 const closeModal = () => {
   $(".modal-container").empty();
   $(".post-modal").hide();
+}
+
+const closeNewPostModal = () => {
+  $(".new-post-modal").hide();
 }
 
 const printStars = (post) => {
@@ -114,19 +120,8 @@ const renderPosts = (posts) => {
   }
 };
 
-const renderPostModal = (id) => {
-  // getPosts()
-  //   .then((data) => {
-  //     const parsedData = data.posts;
-  //     parsedData.forEach(post => {
-  //       if (post.id == id) {
-          $(".modal-container").append(createPostModalElements(post))
-        // }
-      // });
-    // })
-};
 
-const renderNewPostModal = (id) => {
+const renderPostModal = (id) => {
   getPosts()
     .then((data) => {
       const parsedData = data.posts;
@@ -138,6 +133,17 @@ const renderNewPostModal = (id) => {
     })
 };
 
+const renderNewPostModal = () => {
+  // getPosts()
+  //   .then((data) => {
+  //     const parsedData = data.posts;
+  //     parsedData.forEach(post => {
+  //       if (post.id == id) {
+          $(".new-post-modal-container").append(createNewPostModalElements())
+        // }
+      // });
+    // })
+};
 
 //Document.ready
 $(document).ready(() => {
@@ -145,14 +151,21 @@ $(document).ready(() => {
   getPosts().done((data) => {
     posts = data.posts;
     renderPosts(posts);
+    renderNewPostModal()
   })
     .then(() => {
+      //Post modal interactions
       $(".card").on("click", function () {
         $(".post-modal").show();
         const id = $(this).attr('data-id');
         renderPostModal(id)
 
         $(".close-modal").click(closeModal);
+      })
+      //New post modal interactions
+      $(".new-post-btn").on("click", function () {
+        $(".new-post-modal").show();
+        $(".close-modal").click(closeNewPostModal);
       })
     })
 
