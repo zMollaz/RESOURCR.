@@ -58,10 +58,12 @@
   <div class="topnav">
     <a href="#home" class="navbar-logo">RESOURCR.</a>
     <div class="search-bar">
-      <form onsubmit="event.preventDefault();" role="search">
+      <form id="form" onsubmit="event.preventDefault();" role="search">
         <label for="search">Search for stuff</label>
-        <input id="search" type="search" placeholder="Search..." autofocus required />
+        
+        <input id="search" name="topic" type="search" placeholder="Search..." autofocus required />
         <button class="searchBarButton" type="submit">Go</button>
+
       </form>
     </div>
 
