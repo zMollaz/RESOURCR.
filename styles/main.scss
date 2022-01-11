@@ -10,7 +10,7 @@
 }
 
 body {
-
+  position: relative;
   margin: 0;
   padding: 0;
   background-color: #4097AA;
@@ -105,8 +105,8 @@ body {
   align-items: center;
 }
 
-
 .fa-heart {
   margin-top: 20%;
   padding-left: 10px;
 }
+

@@ -1,19 +1,34 @@
 //Vars
 :root {
-  --rad: .7rem;
-  --dur: .3s;
-  --color-dark: #4097AA;
+  --rad: 0.7rem;
+  --dur: 0.3s;
+  --color-dark: #4097aa;
   --color-light: #fff;
-  --color-brand: #FA9483;
-  --font-family: 'Roboto Slab', serif;
+  --color-brand: #fa9483;
+  --font-family: "Roboto Slab", serif;
   --height: 3rem;
   --btn-width: 5rem;
   --bez: cubic-bezier(0, 0, 0.43, 1.49);
 }
 
 // Setup
-body {background: var(--color-dark); display: flex; align-items: center; justify-content: center; min-height: 100vh }
-html { box-sizing: border-box; height: 100%; font-size: 10px; } *, *::before, *::after { box-sizing: inherit; }
+body {
+  background: var(--color-dark);
+  // display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+html {
+  box-sizing: border-box;
+  height: 100%;
+  font-size: 10px;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
 
 // Main styles
 form {
@@ -22,7 +37,8 @@ form {
   background: var(--color-brand);
   border-radius: var(--rad);
 }
-input, button {
+input,
+button {
   height: var(--height);
   font-family: var(--font-fam);
   border: 0;
