@@ -27,6 +27,15 @@ const getPosts = () => {
   });
 };
 
+const getPostsByTopic = (topic) => {
+  return $.ajax({
+    url: 'http://localhost:8080/posts/search',
+    method: 'POST',
+    type: "json",
+    data: { topic }
+  });
+};
+
 const createPostElement = (post) => {
   const { id, img_src, total_likes } = post;
   // console.log("post", post);
@@ -48,7 +57,7 @@ const createPostElement = (post) => {
 };
 
 const renderModal = (post) => {
-  const {title, url_src, description, comment} = post;
+  const { title, url_src, description, comment } = post;
   return $(`<div class="blue-background">
   <div class="modal-title">${title}</div>
   <div class="modal-url">${url_src}</div>
@@ -67,7 +76,6 @@ const renderModal = (post) => {
 
 
 const renderPosts = (posts) => {
-  // console.log("posts", posts);
   const $postContainer = $('.post-container');
   for (const post of posts) {
     const $post = createPostElement(post);
@@ -111,6 +119,30 @@ $(document).ready(() => {
     })
 
 
+  //search function
 
+  $("#form").submit(function (event) {
+    const $topic = $("#search").val()
+    event.preventDefault();
+
+    getPostsByTopic($topic).done((data) => {
+      posts = data.posts;
+      if (posts.length > 0) {
+        const $postContainer = $('.post-container');
+        $postContainer.empty();
+      }
+      renderPosts(posts);
+    })
+      .then(() => {
+        $(".card").on("click", function () {
+          $(".modal").show();
+          const id = $(this).attr('data-id');
+          getSingleModalData(id)
+
+          $(".close-modal").click(closeModal);
+        })
+      })
+
+  });
 
 });
