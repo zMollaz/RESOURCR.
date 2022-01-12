@@ -3,18 +3,23 @@
 //Entry point functions
 $(".post-modal").hide();
 $(".new-post-modal").hide();
+$(".user-modal").hide();
 
 //Helper function
 const closeModal = () => {
   $(".modal-container").empty();
   $(".post-modal").hide();
-}
+};
 
 const closeNewPostModal = () => {
   $(".new-post-modal").hide();
   $(".new-post-text").val("");
+};
 
-}
+const closeUserModal = () => {
+  $(".user-modal").hide();
+  $(".user-text").val("");
+};
 
 const printStars = (post) => {
   const hollowStar = `<i class="far fa-star"></i>`;
@@ -58,6 +63,14 @@ const getPostsByTopic = (topic) => {
   });
 };
 
+const getUser = () => {
+  return $.ajax({
+    url: `http://localhost:8080/users/modal`,
+    method: 'GET',
+    type: "json"
+
+  });
+};
 
 //Setter functions
 const addPost = (newPost) => {
@@ -68,7 +81,7 @@ const addPost = (newPost) => {
     method: 'POST',
     type: "json",
     data: newPost,
-    success: function(data) {
+    success: function (data) {
       alert(data.message)
     }
   });
@@ -132,9 +145,27 @@ const createNewPostModalElements = () => {
     <button type="submit" class="btn submit-post-button">Submit</button>
     </form>
   </div>`);
-}
+};
 
 // <div class="modal-comments">${comment}</div> in case we need the comment on modal
+
+const createUserModalElements = (user) => {
+  const { name, email, password } = user;
+  return $(`
+  <div class="blue-background">
+  <h2>Edit profile</h2>
+  <form class="user-form">
+    <label for="name">Change name</label>
+    <input id="name" name="name" class="user-text" placeholder="${name}" />
+    <label for="email">Change email</label>
+    <input id="email" name="email" class="user-text" placeholder="${email}" />
+    <label for="password">Change password</label>
+    <input id="password" name="password" class="user-text" placeholder="${password}" />
+    <button type="submit" class="btn submit-user-button">Submit</button>
+    </form>
+  </div>`);
+}
+
 
 //Render functions
 const renderPosts = (posts) => {
@@ -149,9 +180,24 @@ const renderPostModal = (id) => {
   getPost(id)
     .then((data) => {
       const post = data.post;
-          $(".modal-container").append(createPostModalElements(post))
+      $(".modal-container").append(createPostModalElements(post))
 
     })
+};
+
+const renderUserModal = (id) => {
+  getUser(id)
+    .then((data) => {
+      console.log(data)
+      const user = data.user;
+      $(".user-modal-container").append(createUserModalElements(user))
+
+    })
+};
+
+
+const renderNewPostModal = () => {
+  $(".new-post-modal-container").append(createNewPostModalElements())
 };
 
 
@@ -164,18 +210,16 @@ const main = function () {
     $('.btn').addClass('disabled');
   });
 }
-const renderNewPostModal = () => {
-  $(".new-post-modal-container").append(createNewPostModalElements())
-};
 
 //Document.ready
 $(document).ready(() => {
-  let posts;
+  let posts; let users;
   getPosts().done((data) => {
     console.log(data.posts)
     posts = data.posts;
     renderPosts(posts);
     renderNewPostModal();
+    renderUserModal(1);
 
   })
     .then(() => {
@@ -185,6 +229,12 @@ $(document).ready(() => {
         const id = $(this).attr('data-id');
         renderPostModal(id);
         $(".close-modal").click(closeModal);
+      })
+
+      //  User modal interactions
+      $(".edit-profile").on("click", function () {
+        $(".user-modal").show();
+        $(".close-modal").click(closeUserModal);
       })
 
       //New post modal interactions
@@ -203,15 +253,30 @@ $(document).ready(() => {
         const newDescription = $("#new-post-description").val();
         const newImageUrl = $("#new-post-image-url").val();
         const newTopic = $("#topics").val()
-        const postData = {newTitle, newUrl, newDescription, newImageUrl, newTopic};
+        const postData = { newTitle, newUrl, newDescription, newImageUrl, newTopic };
         $(".new-post-text").val("");
         console.log(postData)
         addPost(postData);
 
       })
     })
+  //Get user data
+  // getUser().done((data) => {
+  //   console.log("this is", data)
+  //   users = data;
+  //   renderUserModal(1);
+  // })
+  //   .then(() => {
+  //     //User modal interactions
+  //     $(".edit-profile").on("click", function () {
+  //       $(".user-modal").show();
+  //       $(".close-modal").click(closeUserModal);
+  //     })
+  //   })
 
-    //comment box
+
+
+  //comment box
   $('.status-box').keyup(function () {
     const postLength = $(this).val().length;
     const charactersLeft = 250 - postLength;
@@ -255,48 +320,48 @@ $(document).ready(() => {
   })
 
   //heart function for likes
-  $(function() {
-    $(".heart-likes").on("click", function() {
+  $(function () {
+    $(".heart-likes").on("click", function () {
       $(this).toggleClass("is-active");
     });
   });
 
-//star function for ratings
-$(function() {
-  $('#rating-container > .rating-star').mouseenter(function() {
-    $(this).prevAll().andSelf().addClass("rating-hover")
-    $(this).nextAll().removeClass("rating-hover").addClass("no-rating");
-    $('.meaning').fadeIn('fast');
-  });
-  $('#rating-container > .rating-star').mouseleave(function() {
-    $(this).nextAll().removeClass("no-rating");
-  });
-  $('#rating-container').mouseleave(function() {
-    $('.rating-star').removeClass("rating-hover");
-    $('.meaning').fadeOut('fast');
-  });
+  //star function for ratings
+  $(function () {
+    $('#rating-container > .rating-star').mouseenter(function () {
+      $(this).prevAll().andSelf().addClass("rating-hover")
+      $(this).nextAll().removeClass("rating-hover").addClass("no-rating");
+      $('.meaning').fadeIn('fast');
+    });
+    $('#rating-container > .rating-star').mouseleave(function () {
+      $(this).nextAll().removeClass("no-rating");
+    });
+    $('#rating-container').mouseleave(function () {
+      $('.rating-star').removeClass("rating-hover");
+      $('.meaning').fadeOut('fast');
+    });
 
-  $('#rating-container > .rating-star').click(function() {
-    $(this).prevAll().andSelf().addClass("rating-chosen");
-    $(this).nextAll().removeClass("rating-chosen");
-  });
+    $('#rating-container > .rating-star').click(function () {
+      $(this).prevAll().andSelf().addClass("rating-chosen");
+      $(this).nextAll().removeClass("rating-chosen");
+    });
 
-  $("#1-star").hover(function() {
-    $('.meaning').text('1/5 Meh');
+    $("#1-star").hover(function () {
+      $('.meaning').text('1/5 Meh');
+    });
+    $("#2-star").hover(function () {
+      $('.meaning').text('2/5 Not good, not bad.');
+    });
+    $("#3-star").hover(function () {
+      $('.meaning').text('3/5 It\'s okay I guess');
+    });
+    $("#4-star").hover(function () {
+      $('.meaning').text('4/5 Nice!');
+    });
+    $("#5-star").hover(function () {
+      $('.meaning').text('5/5 Best thing ever');
+    });
   });
-  $("#2-star").hover(function() {
-    $('.meaning').text('2/5 Not good, not bad.');
-  });
-  $("#3-star").hover(function() {
-    $('.meaning').text('3/5 It\'s okay I guess');
-  });
-  $("#4-star").hover(function() {
-    $('.meaning').text('4/5 Nice!');
-  });
-  $("#5-star").hover(function() {
-    $('.meaning').text('5/5 Best thing ever');
-  });
-});
 
   //Search function
   $("#form").submit(function (event) {

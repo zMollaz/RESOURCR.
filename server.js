@@ -38,10 +38,12 @@ app.use(express.static("public"));
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
 const postsRoutes = require("./routes/posts");
+const usersRoutes = require("./routes/users");
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 app.use("/posts", postsRoutes(db));
+app.use("/users", usersRoutes(db));
 // Note: mount other resources here, using the same pattern above
 
 // Home page
@@ -49,6 +51,7 @@ app.use("/posts", postsRoutes(db));
 // Separate them into separate routes files (see above).
 
 app.get("/", (req, res) => {
+  //req.session.user_id = 1
   res.render("index");
 });
 
