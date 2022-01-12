@@ -13,6 +13,7 @@ const closeModal = () => {
 const closeNewPostModal = () => {
   $(".new-post-modal").hide();
   $(".new-post-text").val("");
+
 }
 
 const printStars = (post) => {
@@ -178,9 +179,13 @@ $(document).ready(() => {
         $(".new-post-modal").show();
         $(".close-modal").click(closeNewPostModal);
       })
+
       //New post submission
       $(".new-post-form").submit(function (event) {
         event.preventDefault();
+        //Testing auto close modal on submission
+        $(".new-post-modal").hide();
+        $(".new-post-text").val("");
         const newTitle = $("#new-post-title").val();
         const newUrl = $("#new-post-url").val();
         const newDescription = $("#new-post-description").val();
