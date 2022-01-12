@@ -15,24 +15,58 @@ function capitalizeFirstLetter(string) {
 
 module.exports = (db) => {
   router.get("/", (req, res) => {
+  //   db.query(
+  //     `SELECT posts.*, avg(rating) as average_rating, count(likes.*) as total_likes,
+  //   comments.* as comments
+  //  FROM posts
+  //   LEFT JOIN ratings ON posts.id = ratings.post_id
+  //   LEFT JOIN likes ON posts.id = likes.post_id
+  //   LEFT JOIN comments ON posts.id = comments.post_id
+  //   GROUP BY posts.id,comments.id;`
+  //   )
     db.query(
-      `SELECT posts.*, avg(rating) as average_rating, count(likes.*) as total_likes,
-    comments.* as comments
+      `SELECT posts.*, avg(rating) as average_rating, count(likes.*) as total_likes
     FROM posts
-    JOIN ratings ON posts.id = ratings.post_id
-    JOIN likes ON posts.id = likes.post_id
-    JOIN comments ON posts.id = comments.post_id
-    GROUP BY posts.id,comments.id;`
+    LEFT JOIN ratings ON posts.id = ratings.post_id
+    LEFT JOIN likes ON posts.id = likes.post_id
+    GROUP BY posts.id;`
     )
       .then((data) => {
+        console.log(data);
         const posts = data.rows;
         console.log(posts);
         res.json({ posts });
       })
       .catch((err) => {
+        console.log(err);
         res.status(500).json({ error: err.message });
       });
   });
+
+  router.get("/:id", (req, res) => {
+      db.query(
+        `SELECT posts.*, avg(rating) as average_rating, count(likes.*) as total_likes,
+      comments.* as comments
+     FROM posts
+      LEFT JOIN ratings ON posts.id = ratings.post_id
+      LEFT JOIN likes ON posts.id = likes.post_id
+      LEFT JOIN comments ON posts.id = comments.post_id
+      WHERE posts.id = $1
+      GROUP BY posts.id,comments.id;`, [req.params.id]
+
+      )
+
+        .then((data) => {
+          console.log(data);
+          const post = data.rows[0];
+          console.log(post);
+          res.json({ post });
+        })
+        .catch((err) => {
+          res.status(500).json({ error: err.message });
+        });
+    });
+
 
   //search function
 
@@ -66,7 +100,7 @@ module.exports = (db) => {
   });
 
   //Add post function
-  router.post("/:id/", (req, res) => {
+  router.post("/", (req, res) => {
     let postData = req.body;
     // let userID = req.session.user_id;  use after creating login route
     let userID = 1;

@@ -40,6 +40,15 @@ const getPosts = () => {
   });
 };
 
+const getPost = (id) => {
+  return $.ajax({
+    url: `http://localhost:8080/posts/${id}`,
+    method: 'GET',
+    type: "json"
+
+  });
+};
+
 const getPostsByTopic = (topic) => {
   return $.ajax({
     url: 'http://localhost:8080/posts/search',
@@ -52,8 +61,10 @@ const getPostsByTopic = (topic) => {
 
 //Setter functions
 const addPost = (newPost) => {
+  console.log(newPost);
   return $.ajax({
-    url: 'http://localhost:8080/posts/:id',
+
+    url: 'http://localhost:8080/posts/',
     method: 'POST',
     type: "json",
     data: newPost,
@@ -135,15 +146,11 @@ const renderPosts = (posts) => {
 };
 
 const renderPostModal = (id) => {
-  const numberID = Number(id);
-  getPosts()
+  getPost(id)
     .then((data) => {
-      const parsedData = data.posts;
-      parsedData.forEach(post => {
-        if (post.id === numberID) {
+      const post = data.post;
           $(".modal-container").append(createPostModalElements(post))
-        }
-      });
+
     })
 };
 
@@ -191,13 +198,13 @@ $(document).ready(() => {
         event.preventDefault();
         //Testing auto close modal on submission
         $(".new-post-modal").hide();
-        $(".new-post-text").val("");
         const newTitle = $("#new-post-title").val();
         const newUrl = $("#new-post-url").val();
         const newDescription = $("#new-post-description").val();
         const newImageUrl = $("#new-post-image-url").val();
         const newTopic = $("#topics").val()
         const postData = {newTitle, newUrl, newDescription, newImageUrl, newTopic};
+        $(".new-post-text").val("");
         console.log(postData)
         addPost(postData);
 
