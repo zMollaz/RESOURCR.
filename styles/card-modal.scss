@@ -1,5 +1,5 @@
 .post-modal {
-  background-color: hsla(0, 7%, 3%, 0.726);
+  background-color: rgba(8, 7, 7, 0.726);
   position: fixed;
   height: 100vh;
   width: 100vw;
@@ -9,33 +9,24 @@
   align-items: center;
   justify-content: center;
   padding: 15rem;
-  color:white;
+  color: white;
 }
 
 .form-modalContainer {
   background-color: #2D4057;
   display: flex;
   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-
+  align-items: center;
+  justify-content: center;
 }
 
 .close-modal {
   position: fixed;
-  top:2rem;
-  right:2rem;
+  top: 2rem;
+  right: 2rem;
   cursor: pointer;
   font-size: 3rem;
   color: white;
-}
-
-.modal-container {
-  background-color: #2D4057;
-  width: 100%;
-  height: 100%;
-  padding: 2rem;
-  border-radius: 16px;
 }
 
 .blue-background {
@@ -45,7 +36,6 @@
   justify-content: space-between;
   padding: 1em;
   height: 100%;
-
 }
 
 .modal-title {
@@ -53,7 +43,6 @@
   font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
   font-size: 3rem;
-
 }
 
 .modal-description {
@@ -66,68 +55,58 @@
   font-size: 1.5rem;
 }
 
-// .modal-likes-rating{
-//   display: flex;
-//    align-items: flex-end;
-//    justify-content: center;
-//   background-color: #2D4057
-// }
-
 .ratings {
   display: flex;
- }
-
-//comment box
+}
 
 .heading {
   color: #666666;
   text-align: center;
 }
+
 body {
-font-family: Arial, sans-serif;
-color: #404040;
-background-color: #eee;
+  font-family: Arial, sans-serif;
+  color: #404040;
+  background-color: #eee;
 }
+
 .container {
-width: 520px;
-margin-top: 20px;
+  width: 520px;
+  margin-top: 20px;
 }
+
 .button-group {
-margin-bottom: 20px;
+  margin-bottom: 20px;
 }
-// .counter {
-// display: inline;
-// margin-top: 0;
-// margin-bottom: 0;
-// margin-right: 10px;
-// }
+
 .posts {
-clear: both;
-list-style: none;
-padding-left: 0;
-width: 100%;
-text-align: left;
+  clear: both;
+  list-style: none;
+  padding-left: 0;
+  width: 100%;
+  text-align: left;
 }
+
 .posts li {
-background-color: #fff;
-color: black;
-border: 1.5px solid #d8d8d8;
-border-radius: 10px;
-padding-top: 10px;
-padding-left: 20px;
-padding-right: 20px;
-padding-bottom: 10px;
-margin-bottom: 10px;
-word-wrap: break-word;
-min-height: 42px;
-box-shadow:8px 8px 5px #888888;
+  background-color: #fff;
+  color: black;
+  border: 1.5px solid #d8d8d8;
+  border-radius: 10px;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  word-wrap: break-word;
+  min-height: 42px;
+  box-shadow: 8px 8px 5px #888888;
 }
+
 .btn-primary {
   color: #fff;
   background-color: #337ab7;
   border-color: #2e6da4;
 }
-
 
 .heart-likes {
   width: 100px;
@@ -137,17 +116,15 @@ box-shadow:8px 8px 5px #888888;
   cursor: pointer;
   transition: background-position 1s steps(28);
   transition-duration: 0s;
-
-  &.is-active {
-    transition-duration: 1s;
-    background-position: -2800px 0;
-  }
+}
+.heart-likes.is-active {
+  transition-duration: 1s;
+  background-position: -2800px 0;
 }
 
 body {
   background: #000000;
 }
-
 
 .rating-star {
   color: white;
@@ -175,7 +152,6 @@ i {
   align-items: center;
 }
 
-//comment box with post button
 .status-box {
-    width: 100%;
+  width: 100%;
 }
