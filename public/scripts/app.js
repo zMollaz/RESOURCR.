@@ -1,5 +1,5 @@
 // Client facing scripts here
-
+//  ******* lookup escape function in tweeter clientInformation.js
 //Entry point functions
 $(".post-modal").hide();
 $(".new-post-modal").hide();
@@ -12,6 +12,7 @@ const closeModal = () => {
 
 const closeNewPostModal = () => {
   $(".new-post-modal").hide();
+  $(".new-post-text").val("");
 }
 
 const printStars = (post) => {
@@ -44,6 +45,20 @@ const getPostsByTopic = (topic) => {
     method: 'POST',
     type: "json",
     data: { topic }
+  });
+};
+
+
+//Setter functions
+const addPost = (newPost) => {
+  return $.ajax({
+    url: 'http://localhost:8080/posts/:id',
+    method: 'POST',
+    type: "json",
+    data: newPost,
+    success: function(data) {
+      alert(data.message)
+    }
   });
 };
 
@@ -96,19 +111,19 @@ const createNewPostModalElements = () => {
   <div class="blue-background">
   <h2>Create New Resource</h2>
   <form class="new-post-form">
-    <input class="new-post-text" placeholder="Add title" /></a>
-    <input class="new-post-text" placeholder="Add URL" />
-    <input class="new-post-text" placeholder="Add description" />
-    <input class="new-post-text" placeholder="Add image URL" />
+    <input id="new-post-title" class="new-post-text" placeholder="Add title" /></a>
+    <input id="new-post-url" class="new-post-text" placeholder="Add URL" />
+    <input id="new-post-description" class="new-post-text" placeholder="Add description" />
+    <input id="new-post-image-url" class="new-post-text" placeholder="Add image URL" />
     <div class="drop-down">
     <label for="topics">Topics</label>
     <select name="topics" id="topics">
-      <option value="Coding">Coding</option>
-      <option value="Food">Food</option>
-      <option value="Movies">Movies</option>
+      <option value="1">Coding</option>
+      <option value="3">Food</option>
+      <option value="2">Movies</option>
     </select>
     </div>
-    <button type="submit" class="btn btn-secondary">Submit</button>
+    <button type="submit" class="btn submit-post-button">Submit</button>
     </form>
   </div>`);
 }
@@ -145,7 +160,8 @@ $(document).ready(() => {
   getPosts().done((data) => {
     posts = data.posts;
     renderPosts(posts);
-    renderNewPostModal()
+    renderNewPostModal();
+
   })
     .then(() => {
       //Post modal interactions
@@ -160,6 +176,19 @@ $(document).ready(() => {
       $(".new-post-btn").on("click", function () {
         $(".new-post-modal").show();
         $(".close-modal").click(closeNewPostModal);
+      })
+      //New post submission
+      $(".new-post-form").submit(function (event) {
+        event.preventDefault();
+        const newTitle = $("#new-post-title").val();
+        const newUrl = $("#new-post-url").val();
+        const newDescription = $("#new-post-description").val();
+        const newImageUrl = $("#new-post-image-url").val();
+        const newTopic = $("#topics").val()
+        const postData = {newTitle, newUrl, newDescription, newImageUrl, newTopic};
+        console.log(postData)
+        addPost(postData);
+
       })
     })
 
