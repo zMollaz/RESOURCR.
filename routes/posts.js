@@ -68,7 +68,7 @@ module.exports = (db) => {
   //Add post function
   router.post("/:id/", (req, res) => {
     let postData = req.body;
-    // let userID = req.session.user_id;
+    // let userID = req.session.user_id;  use after creating login route
     let userID = 1;
     const { newTitle, newUrl, newDescription, newImageUrl, newTopic } =
       postData;

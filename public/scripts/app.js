@@ -139,11 +139,12 @@ const renderPosts = (posts) => {
 };
 
 const renderPostModal = (id) => {
+  const numberID = Number(id);
   getPosts()
     .then((data) => {
       const parsedData = data.posts;
       parsedData.forEach(post => {
-        if (post.id == id) {
+        if (post.id === numberID) {
           $(".modal-container").append(createPostModalElements(post))
         }
       });
