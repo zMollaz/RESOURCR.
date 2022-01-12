@@ -68,7 +68,7 @@ input[type="search"] {
   z-index: 1;
   position: relative;
 }
-button {
+.searchBarButton {
   display: none; // prevent being able to tab to it
   position: absolute;
   top: 0;
