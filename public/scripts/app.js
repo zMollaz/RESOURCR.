@@ -1,11 +1,19 @@
 // Client facing scripts here
+//  ******* lookup escape function in tweeter clientInformation.js
+//Entry point functions
+$(".post-modal").hide();
+$(".new-post-modal").hide();
 
 //Helper function
-$(".modal").hide();
-
 const closeModal = () => {
   $(".modal-container").empty();
-  $(".modal").hide();
+  $(".post-modal").hide();
+}
+
+const closeNewPostModal = () => {
+  $(".new-post-modal").hide();
+  $(".new-post-text").val("");
+
 }
 
 const printStars = (post) => {
@@ -42,10 +50,24 @@ const getPostsByTopic = (topic) => {
 };
 
 
+//Setter functions
+const addPost = (newPost) => {
+  return $.ajax({
+    url: 'http://localhost:8080/posts/:id',
+    method: 'POST',
+    type: "json",
+    data: newPost,
+    success: function(data) {
+      alert(data.message)
+    }
+  });
+};
+
+
 //HTML builder functions
 const createPostElements = (post) => {
   const { id, img_src, total_likes } = post;
-  let $post = `
+  return $(`
   <div class="card card_medium" data-id= ${id}>
   <div class="imgContainer">
   <img src=${img_src} />
@@ -60,13 +82,13 @@ const createPostElements = (post) => {
     </div>
     </div>
     </div>
-    `;
-  return $post;
+    `);
 };
 
 const createPostModalElements = (post) => {
   const { title, url_src, description, comment } = post;
-  return $(`<div class="blue-background">
+  return $(`
+  <div class="blue-background">
   <div class="modal-title">${title}</div>
   <div class="modal-url">${url_src}</div>
   <div class="modal-description">${description}</div>
@@ -82,7 +104,29 @@ const createPostModalElements = (post) => {
       <i class="fas fa-star"></i>
   </div>
   </div>
-   </div>`)
+   </div>`);
+};
+
+const createNewPostModalElements = () => {
+  return $(`
+  <div class="blue-background">
+  <h2>Create New Resource</h2>
+  <form class="new-post-form">
+    <input id="new-post-title" class="new-post-text" placeholder="Add title" /></a>
+    <input id="new-post-url" class="new-post-text" placeholder="Add URL" />
+    <input id="new-post-description" class="new-post-text" placeholder="Add description" />
+    <input id="new-post-image-url" class="new-post-text" placeholder="Add image URL" />
+    <div class="drop-down">
+    <label for="topics">Topics</label>
+    <select name="topics" id="topics">
+      <option value="1">Coding</option>
+      <option value="3">Food</option>
+      <option value="2">Movies</option>
+    </select>
+    </div>
+    <button type="submit" class="btn submit-post-button">Submit</button>
+    </form>
+  </div>`);
 }
 
 
@@ -96,17 +140,21 @@ const renderPosts = (posts) => {
 };
 
 const renderPostModal = (id) => {
+  const numberID = Number(id);
   getPosts()
     .then((data) => {
       const parsedData = data.posts;
       parsedData.forEach(post => {
-        if (post.id == id) {
+        if (post.id === numberID) {
           $(".modal-container").append(createPostModalElements(post))
         }
       });
     })
 };
 
+const renderNewPostModal = () => {
+  $(".new-post-modal-container").append(createNewPostModalElements())
+};
 
 //Document.ready
 $(document).ready(() => {
@@ -114,14 +162,39 @@ $(document).ready(() => {
   getPosts().done((data) => {
     posts = data.posts;
     renderPosts(posts);
+    renderNewPostModal();
+
   })
     .then(() => {
+      //Post modal interactions
       $(".card").on("click", function () {
-        $(".modal").show();
+        $(".post-modal").show();
         const id = $(this).attr('data-id');
-        renderPostModal(id)
-
+        renderPostModal(id);
         $(".close-modal").click(closeModal);
+      })
+
+      //New post modal interactions
+      $(".new-post-btn").on("click", function () {
+        $(".new-post-modal").show();
+        $(".close-modal").click(closeNewPostModal);
+      })
+
+      //New post submission
+      $(".new-post-form").submit(function (event) {
+        event.preventDefault();
+        //Testing auto close modal on submission
+        $(".new-post-modal").hide();
+        $(".new-post-text").val("");
+        const newTitle = $("#new-post-title").val();
+        const newUrl = $("#new-post-url").val();
+        const newDescription = $("#new-post-description").val();
+        const newImageUrl = $("#new-post-image-url").val();
+        const newTopic = $("#topics").val()
+        const postData = {newTitle, newUrl, newDescription, newImageUrl, newTopic};
+        console.log(postData)
+        addPost(postData);
+
       })
     })
 
@@ -140,7 +213,7 @@ $(document).ready(() => {
     })
       .then(() => {
         $(".card").on("click", function () {
-          $(".modal").show();
+          $(".post-modal").show();
           const id = $(this).attr('data-id');
           renderPostModal(id)
           $(".close-modal").click(closeModal);
