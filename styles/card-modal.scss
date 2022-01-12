@@ -12,6 +12,15 @@
   color:white;
 }
 
+.form-modalContainer {
+  background-color: #2D4057;
+  display: flex;
+  flex-direction: column;
+   align-items: center;
+   justify-content: center;
+
+}
+
 .close-modal {
   position: fixed;
   top:2rem;
@@ -42,17 +51,131 @@
 .modal-title {
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
-  font-weight: 900;
+  font-weight: bold;
+  font-size: 3rem;
 
 }
 
-.modal-likes-rating{
-  display: flex;
-   align-items: flex-end;
-   justify-content: center;
-  background-color: #2D4057
+.modal-description {
+  margin-top: 5%;
+  font-size: 2rem;
 }
+
+.modal-url {
+  margin-top: 5%;
+  font-size: 1.5rem;
+}
+
+// .modal-likes-rating{
+//   display: flex;
+//    align-items: flex-end;
+//    justify-content: center;
+//   background-color: #2D4057
+// }
 
 .ratings {
   display: flex;
  }
+
+//comment box
+
+.heading {
+  color: #666666;
+  text-align: center;
+}
+body {
+font-family: Arial, sans-serif;
+color: #404040;
+background-color: #eee;
+}
+.container {
+width: 520px;
+margin-top: 20px;
+}
+.button-group {
+margin-bottom: 20px;
+}
+// .counter {
+// display: inline;
+// margin-top: 0;
+// margin-bottom: 0;
+// margin-right: 10px;
+// }
+.posts {
+clear: both;
+list-style: none;
+padding-left: 0;
+width: 100%;
+text-align: left;
+}
+.posts li {
+background-color: #fff;
+color: black;
+border: 1.5px solid #d8d8d8;
+border-radius: 10px;
+padding-top: 10px;
+padding-left: 20px;
+padding-right: 20px;
+padding-bottom: 10px;
+margin-bottom: 10px;
+word-wrap: break-word;
+min-height: 42px;
+box-shadow:8px 8px 5px #888888;
+}
+.btn-primary {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+}
+
+
+.heart-likes {
+  width: 100px;
+  height: 100px;
+  background: url("https://cssanimation.rocks/images/posts/steps/heart.png") no-repeat;
+  background-position: 0 0;
+  cursor: pointer;
+  transition: background-position 1s steps(28);
+  transition-duration: 0s;
+
+  &.is-active {
+    transition-duration: 1s;
+    background-position: -2800px 0;
+  }
+}
+
+body {
+  background: #000000;
+}
+
+
+.rating-star {
+  color: white;
+  font-size: 40em;
+}
+
+.rating-hover {
+  color: #E2264D !important;
+}
+
+.rating-chosen {
+  color: #E2264D;
+}
+
+.no-rating {
+  color: white;
+}
+
+i {
+  text-shadow: 0px 0px 5px grey;
+}
+
+.modal-likes-rating {
+  display: flex;
+  align-items: center;
+}
+
+//comment box with post button
+.status-box {
+    width: 100%;
+}

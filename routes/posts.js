@@ -64,9 +64,30 @@ module.exports = (db) => {
       })
   });
 
-  return router;
-};
+  //need req.session.userId
+  // router.post("/comment", (req, res) => {
+  //   const { id, post } = req.body;
+  //   const userID = 1;
+  //   console.log(id);
+  //   db.query(`INSERT INTO comments
+  //   (user_id, post_id, comment)
+  //   VALUES ($1, $2, $3)
+  //   RETURNING *;
+  //   `, [userID, id, post])
+  //     .then(data => {
+  //       const posts = data.rows;
+  //       console.log(id,post);
+  //       res.json({ posts });
+  //     })
+  //     .catch(err => {
+  //       res
+  //         .status(500)
+  //         .json({ error: err.message });
+  //     });
 
+  // })
+return router;
+};
 
 
 
