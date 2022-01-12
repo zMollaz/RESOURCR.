@@ -90,19 +90,13 @@ const createPostModalElements = (post) => {
   return $(`
   <div class="blue-background">
   <div class="modal-title">${title}</div>
-  <div class="modal-url">${url_src}</div>
   <div class="modal-description">${description}</div>
-  <div class="modal-comments">${comment}</div>
-  <div class="comment-textbox">
-  <form>
-  <textarea class="text" placeholder="Add comment"></textarea>
-  </form>
-  <div class="modal-likes-rating">
-    <i class="fas fa-heart"></i>
-    <div class="ratings">
-      <p>Rate this post</p>
-      <i class="fas fa-star"></i>
-  </div>
+  <div class="modal-url">${url_src}</div>
+  <br><br>
+<h3 class="heading">Add A Comment Below</h3>
+  <div class="container">
+      <ul class="posts">
+      </ul>
   </div>
    </div>`);
 };
@@ -129,6 +123,7 @@ const createNewPostModalElements = () => {
   </div>`);
 }
 
+// <div class="modal-comments">${comment}</div> in case we need the comment on modal
 
 //Render functions
 const renderPosts = (posts) => {
@@ -152,6 +147,16 @@ const renderPostModal = (id) => {
     })
 };
 
+
+const main = function () {
+  $('.btn').click(function () {
+    const post = $('.status-box').val();
+    $('<li>').text(post).prependTo('.posts');
+    $('.status-box').val('');
+    $('.counter').text('250');
+    $('.btn').addClass('disabled');
+  });
+}
 const renderNewPostModal = () => {
   $(".new-post-modal-container").append(createNewPostModalElements())
 };
@@ -160,6 +165,7 @@ const renderNewPostModal = () => {
 $(document).ready(() => {
   let posts;
   getPosts().done((data) => {
+    console.log(data.posts)
     posts = data.posts;
     renderPosts(posts);
     renderNewPostModal();
@@ -198,6 +204,93 @@ $(document).ready(() => {
       })
     })
 
+    //comment box
+  $('.status-box').keyup(function () {
+    const postLength = $(this).val().length;
+    const charactersLeft = 250 - postLength;
+    $('.counter').text(charactersLeft);
+    if (charactersLeft < 0) {
+      $('.btn').addClass('disabled');
+    } else if (charactersLeft === 250) {
+      $('.btn').addClass('disabled');
+    } else {
+      $('.btn').removeClass('disabled');
+    }
+  });
+
+  //adding comments
+  const addComments = (id) => {
+    const comment = $('.status-box').val();
+  }
+
+  //post comments
+  $("#comments-form").submit(function (e) {
+    e.preventDefault();
+    console.log("abc")
+    const id = $(".card").attr('data-id');
+    const comment = $(this).find("textarea").val();
+    $.ajax({
+      url: 'http://localhost:8080/posts/comment',
+      method: 'POST',
+      type: "json",
+      data: { id: id, post: comment },
+      success: function (data) {
+        console.log("data is", data)
+
+      }
+    });
+
+    console.log("this is a comment", comment)
+    $('<li>').text(comment).prependTo('.posts');
+    $('.status-box').val('');
+    $('.counter').text('250');
+    $('.btn').addClass('disabled');
+  })
+
+  //heart function for likes
+  $(function() {
+    $(".heart-likes").on("click", function() {
+      $(this).toggleClass("is-active");
+    });
+  });
+
+//star function for ratings
+$(function() {
+  $('#rating-container > .rating-star').mouseenter(function() {
+    $(this).prevAll().andSelf().addClass("rating-hover")
+    $(this).nextAll().removeClass("rating-hover").addClass("no-rating");
+    $('.meaning').fadeIn('fast');
+  });
+  $('#rating-container > .rating-star').mouseleave(function() {
+    $(this).nextAll().removeClass("no-rating");
+  });
+  $('#rating-container').mouseleave(function() {
+    $('.rating-star').removeClass("rating-hover");
+    $('.meaning').fadeOut('fast');
+  });
+
+  $('#rating-container > .rating-star').click(function() {
+    $(this).prevAll().andSelf().addClass("rating-chosen");
+    $(this).nextAll().removeClass("rating-chosen");
+  });
+
+  $("#1-star").hover(function() {
+    $('.meaning').text('1/5 Meh');
+  });
+  $("#2-star").hover(function() {
+    $('.meaning').text('2/5 Not good, not bad.');
+  });
+  $("#3-star").hover(function() {
+    $('.meaning').text('3/5 It\'s okay I guess');
+  });
+  $("#4-star").hover(function() {
+    $('.meaning').text('4/5 Nice!');
+  });
+  $("#5-star").hover(function() {
+    $('.meaning').text('5/5 Best thing ever');
+  });
+});
+
   //Search function
   $("#form").submit(function (event) {
     const $topic = $("#search").val()
@@ -222,6 +315,8 @@ $(document).ready(() => {
 
   });
 
-
-
+  // comment box
+  $('.btn').addClass('disabled');
 });
+
+

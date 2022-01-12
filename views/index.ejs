@@ -20,6 +20,7 @@
 
   <script type="text/javascript" src="/vendor/jquery-3.0.0.js"></script>
   <script type="text/javascript" src="/scripts/app.js" defer></script>
+  <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.4.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
@@ -29,17 +30,47 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
     integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+</link>
 
 </head>
 
 <body>
 
+
+  <!-- This is the modal start -->
+  <div class="modal">
+
   <!-- This is the post modal start -->
   <div class="post-modal">
     <i class="fas fa-times close-modal"></i>
     <section class="modal-container">
-
-    </section>
+    <i class="fas fa-times close-modal"></i>
+    <div class="form-modalContainer">
+      <section class="modal-container">
+      </section>
+      <form id="comments-form" method="post">
+        <div class="form-group">
+          <textarea class="form-control status-box" rows="3" placeholder="Enter your comment here..."></textarea>
+        </div>
+        <div class="button-group pull-right">
+          <button style=display:block class="btn btn-primary text-white submit-post">Post</button>
+          <!-- <p class="counter">250</p> -->
+          <div class="modal-likes-rating">
+            <div class="heart-likes"></div>
+            <div id="rating-container">
+              <i id="1-star" class="fa-2x fa fa-star rating-star"></i>
+              <i id="2-star" class="fa-2x fa fa-star rating-star"></i>
+              <i id="3-star" class="fa-2x fa fa-star rating-star"></i>
+              <i id="4-star" class="fa-2x fa fa-star rating-star"></i>
+              <i id="5-star" class="fa-2x fa fa-star rating-star"></i>
+            </div>
+            <div class="meaning"></div>
+          </div>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
   <!-- This is the post modal end -->
 
