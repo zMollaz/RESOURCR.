@@ -49,6 +49,16 @@ const getPosts = () => {
   });
 };
 
+const getCreatedPosts = () => {
+  let userId = $("#user-selection").val();
+  return $.ajax({
+    url: `http://localhost:8080/users/${userId}/posts`,
+    method: 'GET',
+    type: "json",
+    data: userId
+  });
+};
+
 const getPost = (id) => {
   return $.ajax({
     url: `http://localhost:8080/posts/${id}`,
@@ -235,7 +245,7 @@ const renderNewPostModal = () => {
 
 //Document.ready
 $(document).ready(() => {
-  let posts;
+  let posts; let userPosts;
   getPosts().done((data) => {
     console.log(data.posts)
     posts = data.posts;
@@ -300,6 +310,17 @@ $(document).ready(() => {
       })
     })
 
+ //Get user posts
+ $("#user-post-button").click(() =>{
+  $('.post-container').empty();
+   getCreatedPosts().done((data) => {
+     console.log(data.posts)
+     userPosts = data.posts;
+     renderPosts(userPosts);
+    })
+  }
+    );
+
   //  User modal interactions
   $(".edit-profile").on("click", function () {
     //Get user
@@ -328,8 +349,11 @@ $(document).ready(() => {
 
   })
 
-  //Switch user
 
+
+
+
+  //Switch user
   $("#user-selection").on("change", switchUser);
 
   //comment box
