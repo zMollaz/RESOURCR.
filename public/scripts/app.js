@@ -142,7 +142,7 @@ const createPostModalElements = (post, id) => {
   return $(`
   <div class="modal-title" data-id= ${id}>${title}</div>
   <div class="modal-description">${description}</div>
-  <div class="modal-url">${url_src}</div>
+  <a href="${url_src}"target="_blank" rel="noreferrer noopener"><div class="modal-url">${url_src}</div></a>
   <br>
 <h3 class="heading">Add A Comment Below</h3>
   <div class="container">
