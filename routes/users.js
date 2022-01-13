@@ -20,7 +20,7 @@ module.exports = (db) => {
   router.get("/modal", (req, res) => {
     db.query(
       `SELECT * FROM users
-    WHERE users.id = 1;`
+    WHERE users.id = 2;`
     //WHERE users.id = $1, [req.session.user_id]
     )
       .then((data) => {

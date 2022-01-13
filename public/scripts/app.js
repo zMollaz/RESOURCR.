@@ -87,6 +87,20 @@ const addPost = (newPost) => {
   });
 };
 
+const updateUser = (update) => {
+  console.log(newPost);
+  return $.ajax({
+
+    url: 'http://localhost:8080/posts/',
+    method: 'POST',
+    type: "json",
+    data: newPost,
+    success: function (data) {
+      alert(data.message)
+    }
+  });
+};
+
 
 //HTML builder functions
 const createPostElements = (post) => {
