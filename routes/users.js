@@ -2,33 +2,35 @@ const express = require("express");
 const router = express.Router();
 
 module.exports = (db) => {
-   //Add post function
-   router.post("/", (req, res) => {
-    let userUpdateData = req.body;
-    // let userID = req.session.user_id;  use after creating login route
-    let userID = 1;
-    const { newTitle, newUrl, newDescription, newImageUrl, newTopic } =
-      postData;
+
+  //Update user data
+  router.post("/", (req, res) => {
+    let updatedUser = req.body;
+    let userId = req.session.user_id;
+    const { newName, newEmail, newPassword } = updatedUser;
+
     db.query(
-      `INSERT INTO posts (title, description, url_src, img_src, user_id, topic_id)
-        VALUES ($1, $2, $3, $4, $5, $6);`,
-      [newTitle, newDescription, newUrl, newImageUrl, userID, newTopic]
-    ).then((result) => {
-      res.json({message: "Your post has been created !!"})
-    });
+      `UPDATE users
+      SET name = "$1", email = "$2"; password = "$3"
+      WHERE id = $4;`,
+      [newName, newEmail, newPassword, userId]
+    )
+      .then((result) => {
+        res.json({ message: "Your profile info has been updated !!" })
+      });
   });
 
+  //Switch user
   router.post("/:id", (req, res) => {
-    req.session.user_id  = req.params.id;
-    res.json({ message: "updated the user"});
+    req.session.user_id = req.params.id;
+    res.json({ message: "updated the user" });
   });
 
   //Get user data
-  router.get("/modal", (req, res) => {
+  router.get("/:id", (req, res) => {
     db.query(
       `SELECT * FROM users
       WHERE users.id = $1;`, [req.session.user_id]
-      //
     )
       .then((data) => {
         console.log(data);
@@ -40,17 +42,6 @@ module.exports = (db) => {
         res.status(500).json({ error: err.message });
       });
   });
-
-  //first step create drop down menu
-  //for each user create a button
-  //each button will go to a post route
-  //example: user 1 button "action" would be "/users/change/1"
-  //example: user 2 button "action" would be "/users/change/2"
-  //inside users.js there will be post route called "change/:id == router.get("change/:id", (req, res) => {"
-  //inside the post route we will check for req.params.id
-  //example: if req.params.id === 1 {req.session.user_id = 1}
-  //example: if req.params.id === 2 {req.session.user_id = 2}
-
 
   return router;
 }
