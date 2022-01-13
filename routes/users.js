@@ -16,12 +16,23 @@ module.exports = (db) => {
   //   });
   // });
 
+  router.post("/user/:id", (req, res) => {
+    let user_id = req.params.id;
+    if (user_id === 1) {
+      req.session.user_id = 1
+    }
+
+    if (user_id === 2) {
+      req.session.user_id = 2
+    }
+  });
+
   //Get user data
   router.get("/modal", (req, res) => {
     db.query(
       `SELECT * FROM users
-    WHERE users.id = 2;`
-    //WHERE users.id = $1, [req.session.user_id]
+      WHERE users.id = $1;`, [req.session.user_id]
+      //
     )
       .then((data) => {
         console.log(data);
