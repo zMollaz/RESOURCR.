@@ -121,7 +121,7 @@ module.exports = (db) => {
   //Adding a comment
   router.post("/comment/:id", (req, res) => {
     const { id, post } = req.body;
-    let userId = req.session.user_id;
+    let userID = req.session.user_id;
     // let userID = req.session.user_id;  use after creating login route ***Done**
     console.log(id);
     db.query(`INSERT INTO comments
