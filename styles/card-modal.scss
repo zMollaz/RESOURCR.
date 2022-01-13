@@ -14,10 +14,38 @@
 
 .form-modalContainer {
   background-color: #2D4057;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  // min-height: 70vh;
+  // min-width: 60vw;
+  // max-height: 70vh;
+  // max-width: 60vw;
+}
+
+.comments-form {
+  width: 60%;
+}
+
+.form-group textarea {
+  color: black;
+  resize: none;
+
+}
+
+/////////
+.modal-title {
+  padding: 10px 20px ;
+}
+
+.modal-description {
+  padding: 0px 20px ;
+}
+
+.modal-url {
+  padding: 0px 20px ;
 }
 
 .close-modal {
@@ -29,14 +57,14 @@
   color: white;
 }
 
-.blue-background {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1em;
-  height: 100%;
-}
+// .blue-background {
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: space-between;
+//   padding: 1em;
+//   height: 100%;
+// }
 
 .modal-title {
   text-align: center;
@@ -62,6 +90,7 @@
 .heading {
   color: #666666;
   text-align: center;
+  margin: 0;
 }
 
 body {
@@ -71,19 +100,26 @@ body {
 }
 
 .container {
-  width: 520px;
-  margin-top: 20px;
+  background-color: transparent;
+  display: flex;
+  border: none;
+  justify-content: space-around;
+  height:200px;
+  overflow: auto;
+  width: 100%;
 }
 
 .button-group {
   margin-bottom: 20px;
+  justify-content: space-between;
 }
 
 .posts {
+  align-items: center !important;
   clear: both;
   list-style: none;
   padding-left: 0;
-  width: 100%;
+  width: 70%;
   text-align: left;
 }
 
@@ -100,6 +136,7 @@ body {
   word-wrap: break-word;
   min-height: 42px;
   box-shadow: 8px 8px 5px #888888;
+  align-items: center;
 }
 
 .btn-primary {
@@ -132,11 +169,11 @@ body {
 }
 
 .rating-hover {
-  color: #E2264D !important;
+  color: #e2df26 !important;
 }
 
 .rating-chosen {
-  color: #E2264D;
+  color: #e2df26;
 }
 
 .no-rating {
@@ -150,7 +187,15 @@ i {
 .modal-likes-rating {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 100%
 }
+
+#rating-container {
+  padding: 30px 30px;
+}
+
 
 .status-box {
   width: 100%;

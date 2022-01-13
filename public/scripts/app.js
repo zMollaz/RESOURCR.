@@ -140,17 +140,15 @@ const createPostElements = (post) => {
 const createPostModalElements = (post, id) => {
   const { title, url_src, description } = post;
   return $(`
-  <div class="blue-background">
   <div class="modal-title" data-id= ${id}>${title}</div>
   <div class="modal-description">${description}</div>
   <div class="modal-url">${url_src}</div>
-  <br><br>
+  <br>
 <h3 class="heading">Add A Comment Below</h3>
   <div class="container">
       <ul class="posts">
       </ul>
-  </div>
-   </div>`);
+  </div>`);
 };
 
 const createNewPostModalElements = () => {
