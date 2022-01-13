@@ -25,11 +25,11 @@ module.exports = (db) => {
   //   GROUP BY posts.id,comments.id;`
   //   )
     db.query(
-      `SELECT posts.*, avg(rating) as average_rating, count(likes.*) as total_likes
-    FROM posts
-    LEFT JOIN ratings ON posts.id = ratings.post_id
-    LEFT JOIN likes ON posts.id = likes.post_id
-    GROUP BY posts.id;`
+      `SELECT posts.*, (SELECT avg(rating) FROM ratings
+      WHERE post_id = posts.id) as average_rating, (SELECT count(*) FROM likes
+      WHERE post_id = posts.id) as total_likes
+        FROM posts
+        GROUP BY posts.id;`
     )
       .then((data) => {
         console.log(data);
@@ -115,6 +115,82 @@ module.exports = (db) => {
     });
   });
 
+  //adding a comment
+    router.post("/comment/:id", (req, res) => {
+      const { id, post } = req.body;
+      const userID = 1;
+       // let userID = req.session.user_id;  use after creating login route
+      console.log(id);
+      db.query(`INSERT INTO comments
+      (user_id, post_id, comment)
+      VALUES ($1, $2, $3)
+      RETURNING *;
+      `, [userID, id, post])
+        .then(data => {
+          const posts = data.rows;
+          console.log(id,post);
+          res.json({ posts });
+        })
+        .catch(err => {
+          res
+            .status(500)
+            .json({ error: err.message });
+        });
+
+    })
+
+    //adding a like
+
+    router.post("/:id/like", (req, res) => {
+      const userID = 1;
+       // let userID = req.session.user_id;  use after creating login route
+      db.query(`INSERT INTO likes
+      (user_id, post_id)
+      VALUES ($1, $2)
+      RETURNING *;
+      `, [userID, req.params.id])
+        .then(data => {
+          const posts = data.rows;
+          res.json({ posts });
+        })
+        .catch(err => {
+          res
+            .status(500)
+            .json({ error: err.message });
+        });
+
+    })
+
+    router.post("/:id/rating", (req, res) => {
+      const { rating } = req.body;
+      const userID = 1;
+       // let userID = req.session.user_id;  use after creating login route
+       console.log(userID, req.params.id, rating)
+      db.query(`INSERT INTO ratings
+      (user_id, post_id, rating)
+      VALUES ($1, $2, $3)
+      RETURNING *;
+      `, [userID, req.params.id, rating])
+        .then(data => {
+          const posts = data.rows;
+          res.json({ posts });
+        })
+        .catch(err => {
+          res
+            .status(500)
+            .json({ error: err.message });
+        });
+
+    })
+
   return router;
 };
+
+
+`SELECT posts.*, (SELECT avg(rating) FROM ratings
+WHERE post_id = posts.id) as average_rating, (SELECT count(*) FROM likes
+WHERE post_id = posts.id) as total_likes
+  FROM posts
+  GROUP BY posts.id;`
+
 

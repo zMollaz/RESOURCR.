@@ -68,7 +68,7 @@ const addPost = (newPost) => {
     method: 'POST',
     type: "json",
     data: newPost,
-    success: function(data) {
+    success: function (data) {
       alert(data.message)
     }
   });
@@ -96,12 +96,13 @@ const createPostElements = (post) => {
     `);
 };
 
-const createPostModalElements = (post) => {
+const createPostModalElements = (post, id) => {
   const { title, url_src, description, comment } = post;
   return $(`
   <div class="blue-background">
-  <div class="modal-title">${title}</div>
+  <div class="modal-title" data-id= ${id}>${title}</div>
   <div class="modal-description">${description}</div>
+  <div class="modal-description">${comment}</div>
   <div class="modal-url">${url_src}</div>
   <br><br>
 <h3 class="heading">Add A Comment Below</h3>
@@ -149,7 +150,7 @@ const renderPostModal = (id) => {
   getPost(id)
     .then((data) => {
       const post = data.post;
-          $(".modal-container").append(createPostModalElements(post))
+      $(".modal-container").append(createPostModalElements(post,id))
 
     })
 };
@@ -203,7 +204,7 @@ $(document).ready(() => {
         const newDescription = $("#new-post-description").val();
         const newImageUrl = $("#new-post-image-url").val();
         const newTopic = $("#topics").val()
-        const postData = {newTitle, newUrl, newDescription, newImageUrl, newTopic};
+        const postData = { newTitle, newUrl, newDescription, newImageUrl, newTopic };
         $(".new-post-text").val("");
         console.log(postData)
         addPost(postData);
@@ -211,7 +212,7 @@ $(document).ready(() => {
       })
     })
 
-    //comment box
+  //comment box
   $('.status-box').keyup(function () {
     const postLength = $(this).val().length;
     const charactersLeft = 250 - postLength;
@@ -234,10 +235,10 @@ $(document).ready(() => {
   $("#comments-form").submit(function (e) {
     e.preventDefault();
     console.log("abc")
-    const id = $(".card").attr('data-id');
+    const id = $(".modal-title").attr('data-id');
     const comment = $(this).find("textarea").val();
     $.ajax({
-      url: 'http://localhost:8080/posts/comment',
+      url: `http://localhost:8080/posts/comment/${id}`,
       method: 'POST',
       type: "json",
       data: { id: id, post: comment },
@@ -247,6 +248,7 @@ $(document).ready(() => {
       }
     });
 
+
     console.log("this is a comment", comment)
     $('<li>').text(comment).prependTo('.posts');
     $('.status-box').val('');
@@ -255,48 +257,84 @@ $(document).ready(() => {
   })
 
   //heart function for likes
-  $(function() {
-    $(".heart-likes").on("click", function() {
+  $(function () {
+    $(".heart-likes").on("click", function () {
+      const id = $(".modal-title").attr('data-id');
       $(this).toggleClass("is-active");
+      $.ajax({
+        url: `http://localhost:8080/posts/${id}/like`,
+        method: 'POST',
+        type: "json",
+        success: function (data) {
+          console.log("data is", data)
+        }
+      });
+    });
+
+  });
+
+
+  //star function for ratings
+  $(function () {
+    $('#rating-container > .rating-star').mouseenter(function () {
+      $(this).prevAll().andSelf().addClass("rating-hover")
+      $(this).nextAll().removeClass("rating-hover").addClass("no-rating");
+      $('.meaning').fadeIn('fast');
+    });
+    $('#rating-container > .rating-star').mouseleave(function () {
+      $(this).nextAll().removeClass("no-rating");
+    });
+    $('#rating-container').mouseleave(function () {
+      $('.rating-star').removeClass("rating-hover");
+      $('.meaning').fadeOut('fast');
+    });
+
+    $('#rating-container > .rating-star').click(function () {
+      $(this).prevAll().andSelf().addClass("rating-chosen");
+      $(this).nextAll().removeClass("rating-chosen");
+    });
+
+    $("#1-star").hover(function () {
+      $('.meaning').text('1/5 Meh');
+    }).click(function(){
+      sendRating(1)
+    });
+    $("#2-star").hover(function () {
+      $('.meaning').text('2/5 Not good, not bad.');
+    }).click(function(){
+      sendRating(2)
+    });
+    $("#3-star").hover(function () {
+      $('.meaning').text('3/5 It\'s okay I guess');
+    }).click(function(){
+      sendRating(3)
+    });
+    $("#4-star").hover(function () {
+      $('.meaning').text('4/5 Nice!');
+    }).click(function(){
+      sendRating(4)
+    });
+    $("#5-star").hover(function () {
+      $('.meaning').text('5/5 Best thing ever');
+    }).click(function(){
+      sendRating(5)
     });
   });
 
-//star function for ratings
-$(function() {
-  $('#rating-container > .rating-star').mouseenter(function() {
-    $(this).prevAll().andSelf().addClass("rating-hover")
-    $(this).nextAll().removeClass("rating-hover").addClass("no-rating");
-    $('.meaning').fadeIn('fast');
-  });
-  $('#rating-container > .rating-star').mouseleave(function() {
-    $(this).nextAll().removeClass("no-rating");
-  });
-  $('#rating-container').mouseleave(function() {
-    $('.rating-star').removeClass("rating-hover");
-    $('.meaning').fadeOut('fast');
-  });
 
-  $('#rating-container > .rating-star').click(function() {
-    $(this).prevAll().andSelf().addClass("rating-chosen");
-    $(this).nextAll().removeClass("rating-chosen");
-  });
+  const sendRating = (rating) => {
+    const id = $(".modal-title").attr('data-id');
+    $.ajax({
+      url: `http://localhost:8080/posts/${id}/rating`,
+      method: 'POST',
+      type: "json",
+      data: { rating: rating},
+      success: function (data) {
+        console.log("data is", data)
+      }
+    })
+  }
 
-  $("#1-star").hover(function() {
-    $('.meaning').text('1/5 Meh');
-  });
-  $("#2-star").hover(function() {
-    $('.meaning').text('2/5 Not good, not bad.');
-  });
-  $("#3-star").hover(function() {
-    $('.meaning').text('3/5 It\'s okay I guess');
-  });
-  $("#4-star").hover(function() {
-    $('.meaning').text('4/5 Nice!');
-  });
-  $("#5-star").hover(function() {
-    $('.meaning').text('5/5 Best thing ever');
-  });
-});
 
   //Search function
   $("#form").submit(function (event) {
