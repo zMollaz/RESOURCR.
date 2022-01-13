@@ -3,7 +3,7 @@ const router = express.Router();
 
 module.exports = (db) => {
 
-  //Update user data
+  //Update user data..
   router.post("/", (req, res) => {
     let updatedUser = req.body;
     let userId = req.session.user_id;
