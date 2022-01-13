@@ -3,8 +3,16 @@
   color: white;
   font-family: 'Patua One', cursive;
   text-shadow: 4px 4px black;
+  cursor: pointer;
 }
 
+#user-selection {
+  cursor: pointer;
+}
+
+.user-option {
+  cursor: pointer;
+}
 
 .navbar-links {
   display: flex;
