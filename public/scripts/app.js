@@ -244,6 +244,31 @@ $(document).ready(() => {
   })
     .then(() => {
 
+      // //Search function
+      // $("#form").submit(function (event) {
+      //   const $topic = $("#search").val()
+      //   event.preventDefault();
+
+      //   getPostsByTopic($topic).done((data) => {
+      //     posts = data.posts;
+      //     if (posts.length > 0) {
+      //       const $postContainer = $('.post-container');
+      //       $postContainer.empty();
+      //     }
+      //     renderPosts(posts);
+      //   })
+      //     .then(() => {
+      //       $(".card").on("click", function () {
+      //         $(".post-modal").show();
+      //         const id = $(this).attr('data-id');
+      //         renderPostModal(id)
+      //         $(".close-modal").click(closeModal);
+      //       })
+      //     })
+
+      // });
+
+
       //Post modal interactions
       $(".card").on("click", function () {
         $(".post-modal").show();
@@ -283,7 +308,7 @@ $(document).ready(() => {
       user = data.user;
       renderUserModal(user);  //get back to this later
     })
-    .then(() => {
+      .then(() => {
         $(".user-modal").show();
         $(".close-modal").click(closeUserModal);
 
@@ -300,7 +325,7 @@ $(document).ready(() => {
 
         })
       })
-      
+
   })
 
   //Switch user
@@ -320,20 +345,6 @@ $(document).ready(() => {
       $('.btn').removeClass('disabled');
     }
   });
-
-  //Get user data
-  // getUser().done((data) => {
-  //   console.log("this is", data)
-  //   users = data;
-  //   renderUserModal(1);
-  // })
-  //   .then(() => {
-  //     //User modal interactions
-  //     $(".edit-profile").on("click", function () {
-  //       $(".user-modal").show();
-  //       $(".close-modal").click(closeUserModal);
-  //     })
-  //   })
 
   //adding comments
   const addComments = (id) => {
