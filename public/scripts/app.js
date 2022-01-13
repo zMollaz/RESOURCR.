@@ -278,6 +278,10 @@ $(document).ready(() => {
 
       // });
 
+      //Home page button interaction
+      $("#home-page").click(() => {
+        location.href = "http://localhost:8080/";
+      });
 
       //Post modal interactions
       $(".card").on("click", function () {
