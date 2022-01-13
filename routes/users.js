@@ -2,13 +2,11 @@ const express = require("express");
 const router = express.Router();
 
 module.exports = (db) => {
-
-  //Update user data..
+  //Update user data
   router.post("/", (req, res) => {
     let updatedUser = req.body;
     let userId = req.session.user_id;
     const { newName, newEmail, newPassword } = updatedUser;
-
     db.query(
       `UPDATE users
       SET name = $1, email = $2, password = $3
@@ -16,7 +14,7 @@ module.exports = (db) => {
       [newName, newEmail, newPassword, userId]
     )
       .then((result) => {
-        res.json({ message: "Your profile info has been updated !!" })
+        res.json({ message: "Your profile info has been updated !!" });
       })
       .catch((err) => {
         res.status(500).json({ error: err.message });
@@ -40,7 +38,8 @@ module.exports = (db) => {
       LEFT JOIN comments ON posts.id = comments.post_id
       LEFT JOIN users ON users.id = posts.user_id
       WHERE posts.user_id = $1
-      GROUP BY posts.id,comments.id;`, [req.params.id]
+      GROUP BY posts.id,comments.id;`,
+      [req.params.id]
     )
       .then((data) => {
         console.log(data);
@@ -64,7 +63,8 @@ module.exports = (db) => {
       LEFT JOIN comments ON posts.id = comments.post_id
       LEFT JOIN users ON users.id = posts.user_id
       WHERE likes.user_id = $1
-      GROUP BY posts.id,comments.id;`, [req.params.id]
+      GROUP BY posts.id,comments.id;`,
+      [req.params.id]
     )
       .then((data) => {
         console.log(data);
@@ -81,7 +81,8 @@ module.exports = (db) => {
   router.get("/", (req, res) => {
     db.query(
       `SELECT * FROM users
-      WHERE users.id = $1;`, [req.session.user_id]
+      WHERE users.id = $1;`,
+      [req.session.user_id]
     )
       .then((data) => {
         console.log(data);
@@ -95,5 +96,4 @@ module.exports = (db) => {
   });
 
   return router;
-}
-
+};

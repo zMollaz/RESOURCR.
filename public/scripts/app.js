@@ -15,12 +15,10 @@ const closeModal = () => {
 const closeNewPostModal = () => {
   $(".new-post-modal").hide();
   $(".new-post-text").val("");
-
 };
 
 const closeUserModal = () => {
   $(".user-modal-container").empty();
-  // $(".new-post-modal").empty();
   $(".user-modal").hide();
   $(".user-text").val("");
 };
@@ -29,7 +27,7 @@ const printStars = (post) => {
   const hollowStar = `<i class="far fa-star"></i>`;
   const filledStar = `<i class="fas fa-star"></i>`;
   let stars;
-  const rating = (Math.round(post.average_rating * 100) / 100);
+  const rating = Math.round(post.average_rating * 100) / 100;
   if (rating) {
     stars = filledStar.repeat(rating);
   } else {
@@ -38,14 +36,33 @@ const printStars = (post) => {
   return stars;
 };
 
+const main = function () {
+  $(".btn").click(function () {
+    const post = $(".status-box").val();
+    $("<li>").text(post).prependTo(".posts");
+    $(".status-box").val("");
+    $(".counter").text("250");
+    $(".btn").addClass("disabled");
+  });
+};
+
+//Sends user id to the backend
+const switchUser = () => {
+  let userId = $("#user-selection").val();
+  return $.ajax({
+    url: `http://localhost:8080/users/${userId}`,
+    method: "POST",
+    data: userId,
+    success: function (data) {},
+  });
+};
 
 //Getter functions
 const getPosts = () => {
   return $.ajax({
-    url: 'http://localhost:8080/posts',
-    method: 'GET',
-    type: "json"
-
+    url: "http://localhost:8080/posts",
+    method: "GET",
+    type: "json",
   });
 };
 
@@ -53,9 +70,9 @@ const getCreatedPosts = () => {
   let userId = $("#user-selection").val();
   return $.ajax({
     url: `http://localhost:8080/users/${userId}/posts`,
-    method: 'GET',
+    method: "GET",
     type: "json",
-    data: userId
+    data: userId,
   });
 };
 
@@ -63,36 +80,36 @@ const getMyLikes = () => {
   let userId = $("#user-selection").val();
   return $.ajax({
     url: `http://localhost:8080/users/${userId}/likes`,
-    method: 'GET',
+    method: "GET",
     type: "json",
-    data: userId
+    data: userId,
   });
 };
 
 const getPost = (id) => {
   return $.ajax({
     url: `http://localhost:8080/posts/${id}`,
-    method: 'GET',
-    type: "json"
-
+    method: "GET",
+    type: "json",
   });
 };
 
 const getPostsByTopic = (topic) => {
   return $.ajax({
-    url: 'http://localhost:8080/posts/search',
-    method: 'POST',
+    url: "http://localhost:8080/posts/search",
+    method: "POST",
     type: "json",
-    data: { topic }
+    data: {
+      topic,
+    },
   });
 };
 
 const getUser = () => {
   return $.ajax({
     url: `http://localhost:8080/users/`,
-    method: 'GET',
-    type: "json"
-
+    method: "GET",
+    type: "json",
   });
 };
 
@@ -100,40 +117,28 @@ const getUser = () => {
 const addPost = (newPost) => {
   console.log(newPost);
   return $.ajax({
-    url: 'http://localhost:8080/posts/',
-    method: 'POST',
+    url: "http://localhost:8080/posts/",
+    method: "POST",
     type: "json",
     data: newPost,
     success: function (data) {
-      alert(data.message)
-    }
+      alert(data.message);
+    },
   });
 };
 
 const updateUser = (updatedUser) => {
   console.log(updatedUser);
   return $.ajax({
-    url: 'http://localhost:8080/users',
-    method: 'POST',
+    url: "http://localhost:8080/users",
+    method: "POST",
     type: "json",
     data: updatedUser,
     success: function (data) {
-      alert(data.message)
-    }
+      alert(data.message);
+    },
   });
 };
-//Sending user id to the backend
-const switchUser = () => {
-  let userId = $("#user-selection").val();
-  return $.ajax({
-    url: `http://localhost:8080/users/${userId}`,
-    method: 'POST',
-    data: userId,
-    success: function (data) {
-    }
-  });
-};
-
 
 //HTML builder functions
 const createPostElements = (post) => {
@@ -155,7 +160,7 @@ const createPostElements = (post) => {
     </div>
     `);
 };
-//
+
 const createPostModalElements = (post, id) => {
   const { title, url_src, description } = post;
   return $(`
@@ -190,9 +195,7 @@ const createNewPostModalElements = () => {
     <button type="submit" class="btn submit-post-button">Submit</button>
     </form>
   </div>`);
-}
-
-// <div class="modal-comments">${comment}</div> in case we need the comment on modal
+};
 
 const createUserModalElements = (user) => {
   const { name, email, password } = user;
@@ -209,11 +212,11 @@ const createUserModalElements = (user) => {
     <button type="submit" class="btn submit-user-button">Submit</button>
     </form>
   </div>`);
-}
+};
 
 //Render functions
 const renderPosts = (posts) => {
-  const $postContainer = $('.post-container');
+  const $postContainer = $(".post-container");
   for (const post of posts) {
     const $post = createPostElements(post);
     $postContainer.prepend($post);
@@ -221,327 +224,293 @@ const renderPosts = (posts) => {
 };
 
 const renderPostModal = (id) => {
-  getPost(id)
-    .then((data) => {
-      const post = data.post;
-      $(".modal-container").append(createPostModalElements(post, id))
-
-    })
+  getPost(id).then((data) => {
+    const post = data.post;
+    $(".modal-container").append(createPostModalElements(post, id));
+  });
 };
 
 const renderUserModal = (user) => {
-  // getUser(id)
-  //   .then((data) => {
-  //     console.log(data)
-  //     const user = data.user;
-  $(".user-modal-container").append(createUserModalElements(user))
-
-  // })
+  $(".user-modal-container").append(createUserModalElements(user));
 };
 
-const main = function () {
-  $('.btn').click(function () {
-    const post = $('.status-box').val();
-    $('<li>').text(post).prependTo('.posts');
-    $('.status-box').val('');
-    $('.counter').text('250');
-    $('.btn').addClass('disabled');
-  });
-}
 const renderNewPostModal = () => {
-  $(".new-post-modal-container").append(createNewPostModalElements())
+  $(".new-post-modal-container").append(createNewPostModalElements());
 };
 
 //Document.ready
 $(document).ready(() => {
-  let posts; let userPosts;
-  getPosts().done((data) => {
-    console.log(data.posts)
-    posts = data.posts;
-    renderPosts(posts);
-    renderNewPostModal();
-  })
+  let posts;
+  let userPosts;
+  getPosts()
+    .done((data) => {
+      console.log(data.posts);
+      posts = data.posts;
+      renderPosts(posts);
+      renderNewPostModal();
+    })
     .then(() => {
-
-      // //Search function
-      // $("#form").submit(function (event) {
-      //   const $topic = $("#search").val()
-      //   event.preventDefault();
-
-      //   getPostsByTopic($topic).done((data) => {
-      //     posts = data.posts;
-      //     if (posts.length > 0) {
-      //       const $postContainer = $('.post-container');
-      //       $postContainer.empty();
-      //     }
-      //     renderPosts(posts);
-      //   })
-      //     .then(() => {
-      //       $(".card").on("click", function () {
-      //         $(".post-modal").show();
-      //         const id = $(this).attr('data-id');
-      //         renderPostModal(id)
-      //         $(".close-modal").click(closeModal);
-      //       })
-      //     })
-
-      // });
-
       //Home page button interaction
       $("#home-page").click(() => {
-        location.href = "http://localhost:8080/";
+        window.location.replace("http://localhost:8080/");
       });
 
       //Post modal interactions
       $(".card").on("click", function () {
         $(".post-modal").show();
-        const id = $(this).attr('data-id');
+        const id = $(this).attr("data-id");
         renderPostModal(id);
         $(".close-modal").click(closeModal);
-      })
+      });
 
       //New post modal interactions
       $(".new-post-btn").on("click", function () {
         $(".new-post-modal").show();
         $(".close-modal").click(closeNewPostModal);
-      })
+      });
 
       //New post submission
       $(".new-post-form").submit(function (event) {
         event.preventDefault();
-        //Testing auto close modal on submission
         $(".new-post-modal").hide();
         const newTitle = $("#new-post-title").val();
         const newUrl = $("#new-post-url").val();
         const newDescription = $("#new-post-description").val();
         const newImageUrl = $("#new-post-image-url").val();
-        const newTopic = $("#topics").val()
-        const postData = { newTitle, newUrl, newDescription, newImageUrl, newTopic };
+        const newTopic = $("#topics").val();
+        const postData = {
+          newTitle,
+          newUrl,
+          newDescription,
+          newImageUrl,
+          newTopic,
+        };
         $(".new-post-text").val("");
-        console.log(postData)
+        console.log(postData);
         addPost(postData);
-      })
-    })
+      });
+    });
 
   //Get user posts
   $("#user-posts-button").click(() => {
-    $('.post-container').empty();
+    $(".post-container").empty();
     getCreatedPosts().done((data) => {
-      console.log(data.posts)
+      console.log(data.posts);
       userPosts = data.posts;
       renderPosts(userPosts);
       $(".card").on("click", function () {
         $(".post-modal").show();
-        const id = $(this).attr('data-id');
+        const id = $(this).attr("data-id");
         renderPostModal(id);
         $(".close-modal").click(closeModal);
-      })
-    })
+      });
+    });
   });
 
   //Get user liked posts
   $("#user-likes-button").click(() => {
-    $('.post-container').empty();
+    $(".post-container").empty();
     getMyLikes().done((data) => {
-      console.log(data.posts)
+      console.log(data.posts);
       userLikes = data.posts;
       renderPosts(userLikes);
       $(".card").on("click", function () {
         $(".post-modal").show();
-        const id = $(this).attr('data-id'); //the bug might be here that occurs when clicking created post in search or my page
+        const id = $(this).attr("data-id"); //the bug might be here that occurs when clicking created post in search or my page
         renderPostModal(id);
         $(".close-modal").click(closeModal);
-      })
-    })
-  }
-  );
+      });
+    });
+  });
 
-  //  User modal interactions
+  //User modal interactions
   $(".edit-profile").on("click", function () {
     //Get user
-    getUser().done((data) => {
-      console.log(data.user)
-      user = data.user;
-      renderUserModal(user);  //get back to this later
-    })
+    getUser()
+      .done((data) => {
+        console.log(data.user);
+        user = data.user;
+        renderUserModal(user); //get back to this later
+      })
       .then(() => {
         $(".user-modal").show();
         $(".close-modal").click(closeUserModal);
-
         //User update submission
         $(".user-form").submit(function (event) {
           event.preventDefault();
           const newName = $("#name").val();
           const newEmail = $("#email").val();
           const newPassword = $("#password").val();
-          const newUserData = { newName, newEmail, newPassword };
+          const newUserData = {
+            newName,
+            newEmail,
+            newPassword,
+          };
           updateUser(newUserData);
           closeUserModal();
-          console.log(newUserData)
-
-        })
-      })
-
-  })
-
-
-
-
+          console.log(newUserData);
+        });
+      });
+  });
 
   //Switch user
   $("#user-selection").on("change", switchUser);
 
-  //comment box
-  $('.status-box').keyup(function () {
+  //Comment box
+  $(".status-box").keyup(function () {
     const postLength = $(this).val().length;
     const charactersLeft = 250 - postLength;
-    $('.counter').text(charactersLeft);
+    $(".counter").text(charactersLeft);
     if (charactersLeft < 0) {
-      $('.btn').addClass('disabled');
+      $(".btn").addClass("disabled");
     } else if (charactersLeft === 250) {
-      $('.btn').addClass('disabled');
+      $(".btn").addClass("disabled");
     } else {
-      $('.btn').removeClass('disabled');
+      $(".btn").removeClass("disabled");
     }
   });
 
-  //adding comments
+  //Adds comments
   const addComments = (id) => {
-    const comment = $('.status-box').val();
-  }
+    const comment = $(".status-box").val();
+  };
 
-  //post comments
+  //Posts comments
   $("#comments-form").submit(function (e) {
     e.preventDefault();
-    console.log("abc")
-    const id = $(".modal-title").attr('data-id');
+    console.log("abc");
+    const id = $(".modal-title").attr("data-id");
     const comment = $(this).find("textarea").val();
     $.ajax({
       url: `http://localhost:8080/posts/comment/${id}`,
-      method: 'POST',
+      method: "POST",
       type: "json",
-      data: { id: id, post: comment },
+      data: {
+        id: id,
+        post: comment,
+      },
       success: function (data) {
-        console.log("data is", data)
-
-      }
+        console.log("data is", data);
+      },
     });
 
+    console.log("this is a comment", comment);
+    $("<li>").text(comment).prependTo(".posts");
+    $(".status-box").val("");
+    $(".counter").text("250");
+    $(".btn").addClass("disabled");
+  });
 
-    console.log("this is a comment", comment)
-    $('<li>').text(comment).prependTo('.posts');
-    $('.status-box').val('');
-    $('.counter').text('250');
-    $('.btn').addClass('disabled');
-  })
-
-  //heart function for likes
+  //Heart function for likes
   $(function () {
     $(".heart-likes").on("click", function () {
-      const id = $(".modal-title").attr('data-id');
+      const id = $(".modal-title").attr("data-id");
       $(this).toggleClass("is-active");
       $.ajax({
         url: `http://localhost:8080/posts/${id}/like`,
-        method: 'POST',
+        method: "POST",
         type: "json",
         success: function (data) {
-          console.log("data is", data)
-        }
+          console.log("data is", data);
+        },
       });
     });
-
   });
 
-
-  //star function for ratings
+  //Star function for ratings
   $(function () {
-    $('#rating-container > .rating-star').mouseenter(function () {
-      $(this).prevAll().andSelf().addClass("rating-hover")
+    $("#rating-container > .rating-star").mouseenter(function () {
+      $(this).prevAll().andSelf().addClass("rating-hover");
       $(this).nextAll().removeClass("rating-hover").addClass("no-rating");
-      $('.meaning').fadeIn('fast');
+      $(".meaning").fadeIn("fast");
     });
-    $('#rating-container > .rating-star').mouseleave(function () {
+    $("#rating-container > .rating-star").mouseleave(function () {
       $(this).nextAll().removeClass("no-rating");
     });
-    $('#rating-container').mouseleave(function () {
-      $('.rating-star').removeClass("rating-hover");
-      $('.meaning').fadeOut('fast');
+    $("#rating-container").mouseleave(function () {
+      $(".rating-star").removeClass("rating-hover");
+      $(".meaning").fadeOut("fast");
     });
-
-    $('#rating-container > .rating-star').click(function () {
+    $("#rating-container > .rating-star").click(function () {
       $(this).prevAll().andSelf().addClass("rating-chosen");
       $(this).nextAll().removeClass("rating-chosen");
     });
-
-    $("#1-star").hover(function () {
-      $('.meaning').text('1/5 Meh');
-    }).click(function () {
-      sendRating(1)
-    });
-    $("#2-star").hover(function () {
-      $('.meaning').text('2/5 Not good, not bad.');
-    }).click(function () {
-      sendRating(2)
-    });
-    $("#3-star").hover(function () {
-      $('.meaning').text('3/5 It\'s okay I guess');
-    }).click(function () {
-      sendRating(3)
-    });
-    $("#4-star").hover(function () {
-      $('.meaning').text('4/5 Nice!');
-    }).click(function () {
-      sendRating(4)
-    });
-    $("#5-star").hover(function () {
-      $('.meaning').text('5/5 Best thing ever');
-    }).click(function () {
-      sendRating(5)
-    });
+    $("#1-star")
+      .hover(function () {
+        $(".meaning").text("1/5 Meh");
+      })
+      .click(function () {
+        sendRating(1);
+      });
+    $("#2-star")
+      .hover(function () {
+        $(".meaning").text("2/5 Not good, not bad.");
+      })
+      .click(function () {
+        sendRating(2);
+      });
+    $("#3-star")
+      .hover(function () {
+        $(".meaning").text("3/5 It's okay I guess");
+      })
+      .click(function () {
+        sendRating(3);
+      });
+    $("#4-star")
+      .hover(function () {
+        $(".meaning").text("4/5 Nice!");
+      })
+      .click(function () {
+        sendRating(4);
+      });
+    $("#5-star")
+      .hover(function () {
+        $(".meaning").text("5/5 Best thing ever");
+      })
+      .click(function () {
+        sendRating(5);
+      });
   });
 
-
   const sendRating = (rating) => {
-    const id = $(".modal-title").attr('data-id');
+    const id = $(".modal-title").attr("data-id");
     $.ajax({
       url: `http://localhost:8080/posts/${id}/rating`,
-      method: 'POST',
+      method: "POST",
       type: "json",
-      data: { rating: rating },
+      data: {
+        rating: rating,
+      },
       success: function (data) {
-        console.log("data is", data)
-      }
-    })
-  }
-
+        console.log("data is", data);
+      },
+    });
+  };
 
   //Search function
   $("#form").submit(function (event) {
-    const $topic = $("#search").val()
+    const $topic = $("#search").val();
     event.preventDefault();
 
-    getPostsByTopic($topic).done((data) => {
-      posts = data.posts;
-      if (posts.length > 0) {
-        const $postContainer = $('.post-container');
-        $postContainer.empty();
-      }
-      renderPosts(posts);
-    })
+    getPostsByTopic($topic)
+      .done((data) => {
+        posts = data.posts;
+        if (posts.length > 0) {
+          const $postContainer = $(".post-container");
+          $postContainer.empty();
+        }
+        renderPosts(posts);
+      })
       .then(() => {
         $(".card").on("click", function () {
           $(".post-modal").show();
-          const id = $(this).attr('data-id');
-          renderPostModal(id)
+          const id = $(this).attr("data-id");
+          renderPostModal(id);
           $(".close-modal").click(closeModal);
-        })
-      })
-
+        });
+      });
   });
 
-  // comment box
-  $('.btn').addClass('disabled');
-
-
-
+  // Comment box
+  $(".btn").addClass("disabled");
 });
