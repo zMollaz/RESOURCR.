@@ -3,18 +3,23 @@
 //Entry point functions
 $(".post-modal").hide();
 $(".new-post-modal").hide();
+$(".user-modal").hide();
 
 //Helper function
 const closeModal = () => {
   $(".modal-container").empty();
   $(".post-modal").hide();
-}
+};
 
 const closeNewPostModal = () => {
   $(".new-post-modal").hide();
   $(".new-post-text").val("");
+};
 
-}
+const closeUserModal = () => {
+  $(".user-modal").hide();
+  $(".user-text").val("");
+};
 
 const printStars = (post) => {
   const hollowStar = `<i class="far fa-star"></i>`;
@@ -58,6 +63,14 @@ const getPostsByTopic = (topic) => {
   });
 };
 
+const getUser = () => {
+  return $.ajax({
+    url: `http://localhost:8080/users/modal`,
+    method: 'GET',
+    type: "json"
+
+  });
+};
 
 //Setter functions
 const addPost = (newPost) => {
@@ -67,10 +80,18 @@ const addPost = (newPost) => {
     url: 'http://localhost:8080/posts/',
     method: 'POST',
     type: "json",
-    data: newPost,
-    success: function (data) {
-      alert(data.message)
-    }
+    data: newPost
+  });
+};
+
+const updateUser = (update) => {
+  console.log(newPost);
+  return $.ajax({
+
+    url: 'http://localhost:8080/posts/',
+    method: 'POST',
+    type: "json",
+    data: newPost
   });
 };
 
@@ -133,9 +154,27 @@ const createNewPostModalElements = () => {
     <button type="submit" class="btn submit-post-button">Submit</button>
     </form>
   </div>`);
-}
+};
 
 // <div class="modal-comments">${comment}</div> in case we need the comment on modal
+
+const createUserModalElements = (user) => {
+  const { name, email, password } = user;
+  return $(`
+  <div class="blue-background">
+  <h2>Edit profile</h2>
+  <form class="user-form">
+    <label for="name">Change name</label>
+    <input id="name" name="name" class="user-text" placeholder="${name}" />
+    <label for="email">Change email</label>
+    <input id="email" name="email" class="user-text" placeholder="${email}" />
+    <label for="password">Change password</label>
+    <input id="password" name="password" class="user-text" placeholder="${password}" />
+    <button type="submit" class="btn submit-user-button">Submit</button>
+    </form>
+  </div>`);
+}
+
 
 //Render functions
 const renderPosts = (posts) => {
@@ -150,9 +189,23 @@ const renderPostModal = (id) => {
   getPost(id)
     .then((data) => {
       const post = data.post;
-      $(".modal-container").append(createPostModalElements(post,id))
-
+      $(".modal-container").append(createPostModalElements(post))
     })
+};
+
+const renderUserModal = (id) => {
+  getUser(id)
+    .then((data) => {
+      console.log(data)
+      const user = data.user;
+      $(".user-modal-container").append(createUserModalElements(user))
+//       $(".modal-container").append(createPostModalElements(post,id))   ?????
+    })
+};
+
+
+const renderNewPostModal = () => {
+  $(".new-post-modal-container").append(createNewPostModalElements())
 };
 
 
@@ -165,18 +218,16 @@ const main = function () {
     $('.btn').addClass('disabled');
   });
 }
-const renderNewPostModal = () => {
-  $(".new-post-modal-container").append(createNewPostModalElements())
-};
 
 //Document.ready
 $(document).ready(() => {
-  let posts;
+  let posts; let users;
   getPosts().done((data) => {
     console.log(data.posts)
     posts = data.posts;
     renderPosts(posts);
     renderNewPostModal();
+    renderUserModal(1);
 
   })
     .then(() => {
@@ -186,6 +237,12 @@ $(document).ready(() => {
         const id = $(this).attr('data-id');
         renderPostModal(id);
         $(".close-modal").click(closeModal);
+      })
+
+      //  User modal interactions
+      $(".edit-profile").on("click", function () {
+        $(".user-modal").show();
+        $(".close-modal").click(closeUserModal);
       })
 
       //New post modal interactions
@@ -211,6 +268,22 @@ $(document).ready(() => {
 
       })
     })
+
+  
+  //Get user data
+  // getUser().done((data) => {
+  //   console.log("this is", data)
+  //   users = data;
+  //   renderUserModal(1);
+  // })
+  //   .then(() => {
+  //     //User modal interactions
+  //     $(".edit-profile").on("click", function () {
+  //       $(".user-modal").show();
+  //       $(".close-modal").click(closeUserModal);
+  //     })
+  //   })
+
 
   //comment box
   $('.status-box').keyup(function () {
@@ -267,11 +340,9 @@ $(document).ready(() => {
         type: "json",
         success: function (data) {
           console.log("data is", data)
-        }
+        } // there might be a missing brackets
       });
     });
-
-  });
 
 
   //star function for ratings
