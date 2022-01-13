@@ -69,7 +69,7 @@ const getPostsByTopic = (topic) => {
 
 const getUser = () => {
   return $.ajax({
-    url: `http://localhost:8080/users/modal`,
+    url: `http://localhost:8080/users/`,
     method: 'GET',
     type: "json"
 
@@ -106,7 +106,7 @@ const updateUser = (updatedUser) => {
 const switchUser = () => {
   let userId = $("#user-selection").val();
   return $.ajax({
-    url: `http://localhost:8080/user/${userId}`,
+    url: `http://localhost:8080/users/${userId}`,
     method: 'POST',
     data: userId,
     success: function (data) {

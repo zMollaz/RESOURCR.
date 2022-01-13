@@ -27,7 +27,7 @@ module.exports = (db) => {
   });
 
   //Get user data
-  router.get("/:id", (req, res) => {
+  router.get("/", (req, res) => {
     db.query(
       `SELECT * FROM users
       WHERE users.id = $1;`, [req.session.user_id]
