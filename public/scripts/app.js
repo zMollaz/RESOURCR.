@@ -122,7 +122,7 @@ const createPostElements = (post) => {
     </div>
     `);
 };
-
+//
 const createPostModalElements = (post, id) => {
   const { title, url_src, description } = post;
   return $(`
