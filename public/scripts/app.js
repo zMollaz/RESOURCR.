@@ -302,6 +302,7 @@ $(document).ready(() => {
 
         })
       })
+      
   })
 
   //Switch user
