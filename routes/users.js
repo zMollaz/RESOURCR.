@@ -39,7 +39,31 @@ module.exports = (db) => {
       LEFT JOIN likes ON posts.id = likes.post_id
       LEFT JOIN comments ON posts.id = comments.post_id
       LEFT JOIN users ON users.id = posts.user_id
-      WHERE users.id = $1
+      WHERE posts.user_id = $1
+      GROUP BY posts.id,comments.id;`, [req.params.id]
+    )
+      .then((data) => {
+        console.log(data);
+        const posts = data.rows;
+        console.log(posts);
+        res.json({ posts });
+      })
+      .catch((err) => {
+        res.status(500).json({ error: err.message });
+      });
+  });
+
+  //Get user created posts
+  router.get("/:id/likes", (req, res) => {
+    db.query(
+      `SELECT posts.*, avg(rating) as average_rating, count(likes.*) as total_likes,
+      comments.* as comments
+     FROM posts
+      LEFT JOIN ratings ON posts.id = ratings.post_id
+      LEFT JOIN likes ON posts.id = likes.post_id
+      LEFT JOIN comments ON posts.id = comments.post_id
+      LEFT JOIN users ON users.id = posts.user_id
+      WHERE likes.user_id = $1
       GROUP BY posts.id,comments.id;`, [req.params.id]
     )
       .then((data) => {
