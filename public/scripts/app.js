@@ -321,6 +321,12 @@ $(document).ready(() => {
      console.log(data.posts)
      userPosts = data.posts;
      renderPosts(userPosts);
+     $(".card").on("click", function () {
+      $(".post-modal").show();
+      const id = $(this).attr('data-id');
+      renderPostModal(id);
+      $(".close-modal").click(closeModal);
+    })
     })
   }
     );

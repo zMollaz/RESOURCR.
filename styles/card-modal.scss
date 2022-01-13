@@ -143,6 +143,7 @@ body {
   color: #fff;
   background-color: #337ab7;
   border-color: #2e6da4;
+  cursor: pointer;
 }
 
 .heart-likes {
@@ -170,6 +171,7 @@ body {
 
 .rating-hover {
   color: #e2df26 !important;
+  cursor: pointer;
 }
 
 .rating-chosen {
@@ -189,7 +191,8 @@ i {
   align-items: center;
   justify-content: space-between;
   flex-direction: row;
-  width: 100%
+  width: 100%;
+  cursor: pointer;
 }
 
 #rating-container {
