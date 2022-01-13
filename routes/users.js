@@ -16,7 +16,7 @@ module.exports = (db) => {
   //   });
   // });
 
-  router.post("/user/:id", (req, res) => {
+  router.post("/:id", (req, res) => {
     let user_id = req.params.id;
     if (user_id === 1) {
       req.session.user_id = 1

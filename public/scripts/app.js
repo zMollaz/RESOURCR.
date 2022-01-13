@@ -76,7 +76,6 @@ const getUser = () => {
 const addPost = (newPost) => {
   console.log(newPost);
   return $.ajax({
-
     url: 'http://localhost:8080/posts/',
     method: 'POST',
     type: "json",
@@ -88,13 +87,24 @@ const addPost = (newPost) => {
 };
 
 const updateUser = (update) => {
-  console.log(newPost);
+  console.log(update);
   return $.ajax({
-
     url: 'http://localhost:8080/posts/',
     method: 'POST',
     type: "json",
-    data: newPost,
+    data: update,
+    success: function (data) {
+      alert(data.message)
+    }
+  });
+};
+//Sending user id to the backend
+const switchUser = () => {
+  let userValue = $(".user-option").attr("value");
+  return $.ajax({
+    url: 'http://localhost:8080/user/:id',
+    method: 'POST',
+    data: userValue,
     success: function (data) {
       alert(data.message)
     }
@@ -229,7 +239,8 @@ $(document).ready(() => {
     posts = data.posts;
     renderPosts(posts);
     renderNewPostModal();
-    renderUserModal(1);
+    renderUserModal(1);  //get back to this later
+
   })
     .then(() => {
       //Post modal interactions
@@ -268,7 +279,25 @@ $(document).ready(() => {
         addPost(postData);
 
       })
+
+       //User update submission
+       $(".user-form").submit(function (event) {
+        event.preventDefault();
+        $(".user-modal").hide();
+        const newName = $("#name").val();
+        const newEmail = $("#email").val();
+        const newPassword = $("password").val();
+        const newUserData = { newName, newEmail, newPassword };
+        $(".user-text").val("");
+        console.log(newUserData)
+        updateUser(newUserData);
+
+      })
     })
+
+
+       //Switch user
+       $(".user-option").click(switchUser());
 
   //comment box
   $('.status-box').keyup(function () {
