@@ -80,10 +80,7 @@ const addPost = (newPost) => {
     url: 'http://localhost:8080/posts/',
     method: 'POST',
     type: "json",
-    data: newPost,
-    success: function (data) {
-      alert(data.message)
-    }
+    data: newPost
   });
 };
 
@@ -94,10 +91,7 @@ const updateUser = (update) => {
     url: 'http://localhost:8080/posts/',
     method: 'POST',
     type: "json",
-    data: newPost,
-    success: function (data) {
-      alert(data.message)
-    }
+    data: newPost
   });
 };
 
@@ -123,12 +117,13 @@ const createPostElements = (post) => {
     `);
 };
 
-const createPostModalElements = (post) => {
+const createPostModalElements = (post, id) => {
   const { title, url_src, description, comment } = post;
   return $(`
   <div class="blue-background">
-  <div class="modal-title">${title}</div>
+  <div class="modal-title" data-id= ${id}>${title}</div>
   <div class="modal-description">${description}</div>
+  <div class="modal-description">${comment}</div>
   <div class="modal-url">${url_src}</div>
   <br><br>
 <h3 class="heading">Add A Comment Below</h3>
@@ -195,7 +190,6 @@ const renderPostModal = (id) => {
     .then((data) => {
       const post = data.post;
       $(".modal-container").append(createPostModalElements(post))
-
     })
 };
 
@@ -205,7 +199,7 @@ const renderUserModal = (id) => {
       console.log(data)
       const user = data.user;
       $(".user-modal-container").append(createUserModalElements(user))
-
+//       $(".modal-container").append(createPostModalElements(post,id))   ?????
     })
 };
 
@@ -274,6 +268,8 @@ $(document).ready(() => {
 
       })
     })
+
+  
   //Get user data
   // getUser().done((data) => {
   //   console.log("this is", data)
@@ -287,7 +283,6 @@ $(document).ready(() => {
   //       $(".close-modal").click(closeUserModal);
   //     })
   //   })
-
 
 
   //comment box
@@ -313,10 +308,10 @@ $(document).ready(() => {
   $("#comments-form").submit(function (e) {
     e.preventDefault();
     console.log("abc")
-    const id = $(".card").attr('data-id');
+    const id = $(".modal-title").attr('data-id');
     const comment = $(this).find("textarea").val();
     $.ajax({
-      url: 'http://localhost:8080/posts/comment',
+      url: `http://localhost:8080/posts/comment/${id}`,
       method: 'POST',
       type: "json",
       data: { id: id, post: comment },
@@ -325,6 +320,7 @@ $(document).ready(() => {
 
       }
     });
+
 
     console.log("this is a comment", comment)
     $('<li>').text(comment).prependTo('.posts');
@@ -336,9 +332,18 @@ $(document).ready(() => {
   //heart function for likes
   $(function () {
     $(".heart-likes").on("click", function () {
+      const id = $(".modal-title").attr('data-id');
       $(this).toggleClass("is-active");
+      $.ajax({
+        url: `http://localhost:8080/posts/${id}/like`,
+        method: 'POST',
+        type: "json",
+        success: function (data) {
+          console.log("data is", data)
+        } // there might be a missing brackets
+      });
     });
-  });
+
 
   //star function for ratings
   $(function () {
@@ -362,20 +367,45 @@ $(document).ready(() => {
 
     $("#1-star").hover(function () {
       $('.meaning').text('1/5 Meh');
+    }).click(function(){
+      sendRating(1)
     });
     $("#2-star").hover(function () {
       $('.meaning').text('2/5 Not good, not bad.');
+    }).click(function(){
+      sendRating(2)
     });
     $("#3-star").hover(function () {
       $('.meaning').text('3/5 It\'s okay I guess');
+    }).click(function(){
+      sendRating(3)
     });
     $("#4-star").hover(function () {
       $('.meaning').text('4/5 Nice!');
+    }).click(function(){
+      sendRating(4)
     });
     $("#5-star").hover(function () {
       $('.meaning').text('5/5 Best thing ever');
+    }).click(function(){
+      sendRating(5)
     });
   });
+
+
+  const sendRating = (rating) => {
+    const id = $(".modal-title").attr('data-id');
+    $.ajax({
+      url: `http://localhost:8080/posts/${id}/rating`,
+      method: 'POST',
+      type: "json",
+      data: { rating: rating},
+      success: function (data) {
+        console.log("data is", data)
+      }
+    })
+  }
+
 
   //Search function
   $("#form").submit(function (event) {
