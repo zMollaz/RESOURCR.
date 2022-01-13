@@ -89,7 +89,7 @@ const addPost = (newPost) => {
 const updateUser = (update) => {
   console.log(update);
   return $.ajax({
-    url: 'http://localhost:8080/posts/',
+    url: 'http://localhost:8080/users/',
     method: 'POST',
     type: "json",
     data: update,
@@ -100,13 +100,13 @@ const updateUser = (update) => {
 };
 //Sending user id to the backend
 const switchUser = () => {
-  let userValue = $(".user-option").attr("value");
+  let userValue = $("#userSelection").val();
   return $.ajax({
-    url: 'http://localhost:8080/user/:id',
+    url: `http://localhost:8080/user/${userValue}`,
     method: 'POST',
     data: userValue,
     success: function (data) {
-      alert(data.message)
+      renderUserModal(userValue);
     }
   });
 };
@@ -203,7 +203,7 @@ const renderPostModal = (id) => {
   getPost(id)
     .then((data) => {
       const post = data.post;
-      $(".modal-container").append(createPostModalElements(post,id))
+      $(".modal-container").append(createPostModalElements(post, id))
 
     })
 };
@@ -239,7 +239,7 @@ $(document).ready(() => {
     posts = data.posts;
     renderPosts(posts);
     renderNewPostModal();
-    renderUserModal(1);  //get back to this later
+    // renderUserModal(1);  //get back to this later
 
   })
     .then(() => {
@@ -280,8 +280,8 @@ $(document).ready(() => {
 
       })
 
-       //User update submission
-       $(".user-form").submit(function (event) {
+      //User update submission
+      $(".user-form").submit(function (event) {
         event.preventDefault();
         $(".user-modal").hide();
         const newName = $("#name").val();
@@ -296,8 +296,9 @@ $(document).ready(() => {
     })
 
 
-       //Switch user
-       $(".user-option").click(switchUser());
+  //Switch user
+  // 1. add click event for user-option
+  $("#userSelection").on("change", switchUser);
 
   //comment box
   $('.status-box').keyup(function () {
@@ -313,7 +314,7 @@ $(document).ready(() => {
     }
   });
 
-    //Get user data
+  //Get user data
   // getUser().done((data) => {
   //   console.log("this is", data)
   //   users = data;
@@ -397,27 +398,27 @@ $(document).ready(() => {
 
     $("#1-star").hover(function () {
       $('.meaning').text('1/5 Meh');
-    }).click(function(){
+    }).click(function () {
       sendRating(1)
     });
     $("#2-star").hover(function () {
       $('.meaning').text('2/5 Not good, not bad.');
-    }).click(function(){
+    }).click(function () {
       sendRating(2)
     });
     $("#3-star").hover(function () {
       $('.meaning').text('3/5 It\'s okay I guess');
-    }).click(function(){
+    }).click(function () {
       sendRating(3)
     });
     $("#4-star").hover(function () {
       $('.meaning').text('4/5 Nice!');
-    }).click(function(){
+    }).click(function () {
       sendRating(4)
     });
     $("#5-star").hover(function () {
       $('.meaning').text('5/5 Best thing ever');
-    }).click(function(){
+    }).click(function () {
       sendRating(5)
     });
   });
@@ -429,7 +430,7 @@ $(document).ready(() => {
       url: `http://localhost:8080/posts/${id}/rating`,
       method: 'POST',
       type: "json",
-      data: { rating: rating},
+      data: { rating: rating },
       success: function (data) {
         console.log("data is", data)
       }

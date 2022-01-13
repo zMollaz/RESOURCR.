@@ -2,29 +2,25 @@ const express = require("express");
 const router = express.Router();
 
 module.exports = (db) => {
-  // router.post("/", (req, res) => {
-  //   let user_id = req.session.user_id
-
-  //   const { newTitle, newUrl, newDescription, newImageUrl, newTopic } =
-  //     postData;
-  //   db.query(
-  //     `INSERT INTO posts (title, description, url_src, img_src, user_id, topic_id)
-  //       VALUES ($1, $2, $3, $4, $5, $6);`,
-  //     [newTitle, newDescription, newUrl, newImageUrl, userID, newTopic]
-  //   ).then((result) => {
-  //     res.json({message: "Your post has been created !!"})
-  //   });
-  // });
+   //Add post function
+   router.post("/", (req, res) => {
+    let userUpdateData = req.body;
+    // let userID = req.session.user_id;  use after creating login route
+    let userID = 1;
+    const { newTitle, newUrl, newDescription, newImageUrl, newTopic } =
+      postData;
+    db.query(
+      `INSERT INTO posts (title, description, url_src, img_src, user_id, topic_id)
+        VALUES ($1, $2, $3, $4, $5, $6);`,
+      [newTitle, newDescription, newUrl, newImageUrl, userID, newTopic]
+    ).then((result) => {
+      res.json({message: "Your post has been created !!"})
+    });
+  });
 
   router.post("/:id", (req, res) => {
-    let user_id = req.params.id;
-    if (user_id === 1) {
-      req.session.user_id = 1
-    }
-
-    if (user_id === 2) {
-      req.session.user_id = 2
-    }
+    req.session.user_id  = req.params.id;
+    res.json({ message: "updated the user"});
   });
 
   //Get user data
