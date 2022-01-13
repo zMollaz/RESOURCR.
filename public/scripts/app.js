@@ -17,6 +17,8 @@ const closeNewPostModal = () => {
 };
 
 const closeUserModal = () => {
+  $(".user-modal-container").empty();
+  // $(".new-post-modal").empty();
   $(".user-modal").hide();
   $(".user-text").val("");
 };
@@ -100,13 +102,13 @@ const updateUser = (update) => {
 };
 //Sending user id to the backend
 const switchUser = () => {
-  let userValue = $("#userSelection").val();
+  let userId = $("#user-selection").val();
   return $.ajax({
-    url: `http://localhost:8080/user/${userValue}`,
+    url: `http://localhost:8080/user/${userId}`,
     method: 'POST',
-    data: userValue,
+    data: userId,
     success: function (data) {
-      renderUserModal(userValue);
+      renderUserModal(userId);
     }
   });
 };
@@ -239,10 +241,11 @@ $(document).ready(() => {
     posts = data.posts;
     renderPosts(posts);
     renderNewPostModal();
-    // renderUserModal(1);  //get back to this later
+    renderUserModal(1);  //get back to this later
 
   })
     .then(() => {
+
       //Post modal interactions
       $(".card").on("click", function () {
         $(".post-modal").show();
@@ -298,7 +301,7 @@ $(document).ready(() => {
 
   //Switch user
   // 1. add click event for user-option
-  $("#userSelection").on("change", switchUser);
+  $("#user-selection").on("change", switchUser);
 
   //comment box
   $('.status-box').keyup(function () {
