@@ -11,7 +11,7 @@ module.exports = (db) => {
 
     db.query(
       `UPDATE users
-      SET name = "$1", email = "$2"; password = "$3"
+      SET name = $1, email = $2, password = $3
       WHERE id = $4;`,
       [newName, newEmail, newPassword, userId]
     )
