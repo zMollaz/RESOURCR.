@@ -81,9 +81,9 @@ module.exports = (db) => {
           `SELECT posts.*, avg(rating) as average_rating, count(likes.*) as total_likes,
         comments.* as comments
         FROM posts
-        JOIN ratings ON posts.id = ratings.post_id
-        JOIN likes ON posts.id = likes.post_id
-        JOIN comments ON posts.id = comments.post_id
+        LEFT OUTER JOIN ratings ON posts.id = ratings.post_id
+        LEFT OUTER JOIN likes ON posts.id = likes.post_id
+        LEFT OUTER JOIN comments ON posts.id = comments.post_id
         WHERE posts.topic_id = $1
         GROUP BY posts.id,comments.id;`,
           [topicObj.id]
