@@ -4,7 +4,6 @@
 $(".post-modal").hide();
 $(".new-post-modal").hide();
 $(".user-modal").hide();
-
 //Helper function
 const closeModal = () => {
   $(".modal-container").empty();
@@ -14,6 +13,7 @@ const closeModal = () => {
 const closeNewPostModal = () => {
   $(".new-post-modal").hide();
   $(".new-post-text").val("");
+
 };
 
 const closeUserModal = () => {
@@ -80,7 +80,10 @@ const addPost = (newPost) => {
     url: 'http://localhost:8080/posts/',
     method: 'POST',
     type: "json",
-    data: newPost
+    data: newPost,
+    success: function (data) {
+      alert(data.message)
+    }
   });
 };
 
@@ -91,7 +94,10 @@ const updateUser = (update) => {
     url: 'http://localhost:8080/posts/',
     method: 'POST',
     type: "json",
-    data: newPost
+    data: newPost,
+    success: function (data) {
+      alert(data.message)
+    }
   });
 };
 
@@ -118,12 +124,11 @@ const createPostElements = (post) => {
 };
 
 const createPostModalElements = (post, id) => {
-  const { title, url_src, description, comment } = post;
+  const { title, url_src, description } = post;
   return $(`
   <div class="blue-background">
   <div class="modal-title" data-id= ${id}>${title}</div>
   <div class="modal-description">${description}</div>
-  <div class="modal-description">${comment}</div>
   <div class="modal-url">${url_src}</div>
   <br><br>
 <h3 class="heading">Add A Comment Below</h3>
@@ -154,7 +159,7 @@ const createNewPostModalElements = () => {
     <button type="submit" class="btn submit-post-button">Submit</button>
     </form>
   </div>`);
-};
+}
 
 // <div class="modal-comments">${comment}</div> in case we need the comment on modal
 
@@ -175,7 +180,6 @@ const createUserModalElements = (user) => {
   </div>`);
 }
 
-
 //Render functions
 const renderPosts = (posts) => {
   const $postContainer = $('.post-container');
@@ -189,7 +193,8 @@ const renderPostModal = (id) => {
   getPost(id)
     .then((data) => {
       const post = data.post;
-      $(".modal-container").append(createPostModalElements(post))
+      $(".modal-container").append(createPostModalElements(post,id))
+
     })
 };
 
@@ -199,15 +204,9 @@ const renderUserModal = (id) => {
       console.log(data)
       const user = data.user;
       $(".user-modal-container").append(createUserModalElements(user))
-//       $(".modal-container").append(createPostModalElements(post,id))   ?????
+
     })
 };
-
-
-const renderNewPostModal = () => {
-  $(".new-post-modal-container").append(createNewPostModalElements())
-};
-
 
 const main = function () {
   $('.btn').click(function () {
@@ -218,17 +217,19 @@ const main = function () {
     $('.btn').addClass('disabled');
   });
 }
+const renderNewPostModal = () => {
+  $(".new-post-modal-container").append(createNewPostModalElements())
+};
 
 //Document.ready
 $(document).ready(() => {
-  let posts; let users;
+  let posts;
   getPosts().done((data) => {
     console.log(data.posts)
     posts = data.posts;
     renderPosts(posts);
     renderNewPostModal();
     renderUserModal(1);
-
   })
     .then(() => {
       //Post modal interactions
@@ -269,22 +270,6 @@ $(document).ready(() => {
       })
     })
 
-  
-  //Get user data
-  // getUser().done((data) => {
-  //   console.log("this is", data)
-  //   users = data;
-  //   renderUserModal(1);
-  // })
-  //   .then(() => {
-  //     //User modal interactions
-  //     $(".edit-profile").on("click", function () {
-  //       $(".user-modal").show();
-  //       $(".close-modal").click(closeUserModal);
-  //     })
-  //   })
-
-
   //comment box
   $('.status-box').keyup(function () {
     const postLength = $(this).val().length;
@@ -298,6 +283,20 @@ $(document).ready(() => {
       $('.btn').removeClass('disabled');
     }
   });
+
+    //Get user data
+  // getUser().done((data) => {
+  //   console.log("this is", data)
+  //   users = data;
+  //   renderUserModal(1);
+  // })
+  //   .then(() => {
+  //     //User modal interactions
+  //     $(".edit-profile").on("click", function () {
+  //       $(".user-modal").show();
+  //       $(".close-modal").click(closeUserModal);
+  //     })
+  //   })
 
   //adding comments
   const addComments = (id) => {
@@ -340,9 +339,11 @@ $(document).ready(() => {
         type: "json",
         success: function (data) {
           console.log("data is", data)
-        } // there might be a missing brackets
+        }
       });
     });
+
+  });
 
 
   //star function for ratings
@@ -433,6 +434,8 @@ $(document).ready(() => {
 
   // comment box
   $('.btn').addClass('disabled');
-});
 
+
+
+});
 
