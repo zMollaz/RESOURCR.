@@ -59,6 +59,16 @@ const getCreatedPosts = () => {
   });
 };
 
+const getMyLikes = () => {
+  let userId = $("#user-selection").val();
+  return $.ajax({
+    url: `http://localhost:8080/users/${userId}/likes`,
+    method: 'GET',
+    type: "json",
+    data: userId
+  });
+};
+
 const getPost = (id) => {
   return $.ajax({
     url: `http://localhost:8080/posts/${id}`,
@@ -120,7 +130,6 @@ const switchUser = () => {
     method: 'POST',
     data: userId,
     success: function (data) {
-      // renderUserModal(userId);
     }
   });
 };
@@ -314,22 +323,38 @@ $(document).ready(() => {
       })
     })
 
- //Get user posts
- $("#user-post-button").click(() =>{
-  $('.post-container').empty();
-   getCreatedPosts().done((data) => {
-     console.log(data.posts)
-     userPosts = data.posts;
-     renderPosts(userPosts);
-     $(".card").on("click", function () {
-      $(".post-modal").show();
-      const id = $(this).attr('data-id');
-      renderPostModal(id);
-      $(".close-modal").click(closeModal);
+  //Get user posts
+  $("#user-posts-button").click(() => {
+    $('.post-container').empty();
+    getCreatedPosts().done((data) => {
+      console.log(data.posts)
+      userPosts = data.posts;
+      renderPosts(userPosts);
+      $(".card").on("click", function () {
+        $(".post-modal").show();
+        const id = $(this).attr('data-id');
+        renderPostModal(id);
+        $(".close-modal").click(closeModal);
+      })
     })
+  });
+
+  //Get user liked posts
+  $("#user-likes-button").click(() => {
+    $('.post-container').empty();
+    getMyLikes().done((data) => {
+      console.log(data.posts)
+      userLikes = data.posts;
+      renderPosts(userLikes);
+      $(".card").on("click", function () {
+        $(".post-modal").show();
+        const id = $(this).attr('data-id'); //the bug might be here that occurs when clicking created post in search or my page
+        renderPostModal(id);
+        $(".close-modal").click(closeModal);
+      })
     })
   }
-    );
+  );
 
   //  User modal interactions
   $(".edit-profile").on("click", function () {
