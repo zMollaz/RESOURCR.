@@ -178,11 +178,12 @@ const createNewPostModalElements = () => {
     <div class="drop-down">
     <label for="topics">Topics</label>
     <select name="topics" id="topics">
-      <option value="1">Coding</option>
+    <option value="1">Coding</option>
       <option value="3">Food</option>
       <option value="2">Movies</option>
-    </select>
-    </div>
+      </select>
+      </div>
+      <br>
     <button type="submit" class="btn submit-post-button">Submit</button>
     </form>
   </div>`);
@@ -200,6 +201,7 @@ const createUserModalElements = (user) => {
     <input id="email" name="email" class="user-text" placeholder="${email}" />
     <label for="password">Change password</label>
     <input id="password" name="password" class="user-text" placeholder="${password}" />
+    <br>
     <button type="submit" class="btn submit-user-button">Submit</button>
     </form>
   </div>`);
