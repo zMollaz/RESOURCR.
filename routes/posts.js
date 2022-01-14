@@ -38,10 +38,10 @@ module.exports = (db) => {
     db.query(
       `SELECT posts.*, avg(rating) as average_rating, count(likes.*) as total_likes,
       comments.* as comments
-     FROM posts
-      LEFT JOIN ratings ON posts.id = ratings.post_id
-      LEFT JOIN likes ON posts.id = likes.post_id
-      LEFT JOIN comments ON posts.id = comments.post_id
+      FROM posts
+      LEFT OUTER JOIN ratings ON posts.id = ratings.post_id
+      LEFT OUTER JOIN likes ON posts.id = likes.post_id
+      LEFT OUTER JOIN comments ON posts.id = comments.post_id
       WHERE posts.id = $1
       GROUP BY posts.id,comments.id;`,
       [req.params.id]
@@ -67,7 +67,7 @@ module.exports = (db) => {
 
         db.query(
           `SELECT posts.*, avg(rating) as average_rating, count(likes.*) as total_likes,
-        comments.* as comments
+        comments.comment
         FROM posts
         LEFT OUTER JOIN ratings ON posts.id = ratings.post_id
         LEFT OUTER JOIN likes ON posts.id = likes.post_id

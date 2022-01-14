@@ -52,8 +52,7 @@ const switchUser = () => {
   return $.ajax({
     url: `http://localhost:8080/users/${userId}`,
     method: "POST",
-    data: userId,
-    success: function (data) {},
+    data: userId
   });
 };
 
@@ -82,7 +81,7 @@ const getMyLikes = () => {
     url: `http://localhost:8080/users/${userId}/likes`,
     method: "GET",
     type: "json",
-    data: userId,
+    data: userId
   });
 };
 
@@ -115,28 +114,20 @@ const getUser = () => {
 
 //Setter functions
 const addPost = (newPost) => {
-  console.log(newPost);
   return $.ajax({
     url: "http://localhost:8080/posts/",
     method: "POST",
     type: "json",
-    data: newPost,
-    success: function (data) {
-      alert(data.message);
-    },
+    data: newPost
   });
 };
 
 const updateUser = (updatedUser) => {
-  console.log(updatedUser);
   return $.ajax({
     url: "http://localhost:8080/users",
     method: "POST",
     type: "json",
-    data: updatedUser,
-    success: function (data) {
-      alert(data.message);
-    },
+    data: updatedUser
   });
 };
 
@@ -244,7 +235,6 @@ $(document).ready(() => {
   let userPosts;
   getPosts()
     .done((data) => {
-      console.log(data.posts);
       posts = data.posts;
       renderPosts(posts);
       renderNewPostModal();
@@ -283,10 +273,9 @@ $(document).ready(() => {
           newUrl,
           newDescription,
           newImageUrl,
-          newTopic,
+          newTopic
         };
         $(".new-post-text").val("");
-        console.log(postData);
         addPost(postData);
       });
     });
@@ -295,7 +284,6 @@ $(document).ready(() => {
   $("#user-posts-button").click(() => {
     $(".post-container").empty();
     getCreatedPosts().done((data) => {
-      console.log(data.posts);
       userPosts = data.posts;
       renderPosts(userPosts);
       $(".card").on("click", function () {
@@ -311,12 +299,11 @@ $(document).ready(() => {
   $("#user-likes-button").click(() => {
     $(".post-container").empty();
     getMyLikes().done((data) => {
-      console.log(data.posts);
       userLikes = data.posts;
       renderPosts(userLikes);
       $(".card").on("click", function () {
         $(".post-modal").show();
-        const id = $(this).attr("data-id"); //the bug might be here that occurs when clicking created post in search or my page
+        const id = $(this).attr("data-id");
         renderPostModal(id);
         $(".close-modal").click(closeModal);
       });
@@ -328,9 +315,8 @@ $(document).ready(() => {
     //Get user
     getUser()
       .done((data) => {
-        console.log(data.user);
         user = data.user;
-        renderUserModal(user); //get back to this later
+        renderUserModal(user);
       })
       .then(() => {
         $(".user-modal").show();
@@ -344,11 +330,10 @@ $(document).ready(() => {
           const newUserData = {
             newName,
             newEmail,
-            newPassword,
+            newPassword
           };
           updateUser(newUserData);
           closeUserModal();
-          console.log(newUserData);
         });
       });
   });
@@ -378,7 +363,6 @@ $(document).ready(() => {
   //Posts comments
   $("#comments-form").submit(function (e) {
     e.preventDefault();
-    console.log("abc");
     const id = $(".modal-title").attr("data-id");
     const comment = $(this).find("textarea").val();
     $.ajax({
@@ -387,14 +371,10 @@ $(document).ready(() => {
       type: "json",
       data: {
         id: id,
-        post: comment,
-      },
-      success: function (data) {
-        console.log("data is", data);
-      },
+        post: comment
+      }
     });
 
-    console.log("this is a comment", comment);
     $("<li>").text(comment).prependTo(".posts");
     $(".status-box").val("");
     $(".counter").text("250");
@@ -409,10 +389,7 @@ $(document).ready(() => {
       $.ajax({
         url: `http://localhost:8080/posts/${id}/like`,
         method: "POST",
-        type: "json",
-        success: function (data) {
-          console.log("data is", data);
-        },
+        type: "json"
       });
     });
   });
@@ -479,11 +456,8 @@ $(document).ready(() => {
       method: "POST",
       type: "json",
       data: {
-        rating: rating,
-      },
-      success: function (data) {
-        console.log("data is", data);
-      },
+        rating: rating
+      }
     });
   };
 
@@ -491,7 +465,6 @@ $(document).ready(() => {
   $("#form").submit(function (event) {
     const $topic = $("#search").val();
     event.preventDefault();
-
     getPostsByTopic($topic)
       .done((data) => {
         posts = data.posts;

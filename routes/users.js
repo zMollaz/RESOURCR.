@@ -31,14 +31,14 @@ module.exports = (db) => {
   router.get("/:id/posts", (req, res) => {
     db.query(
       `SELECT posts.*, avg(rating) as average_rating, count(likes.*) as total_likes,
-      comments.* as comments
-     FROM posts
-      LEFT JOIN ratings ON posts.id = ratings.post_id
-      LEFT JOIN likes ON posts.id = likes.post_id
-      LEFT JOIN comments ON posts.id = comments.post_id
-      LEFT JOIN users ON users.id = posts.user_id
-      WHERE posts.user_id = $1
-      GROUP BY posts.id,comments.id;`,
+        comments.comment
+        FROM posts
+        FULL JOIN ratings ON posts.id = ratings.post_id
+        FULL JOIN likes ON posts.id = likes.post_id
+        FULL JOIN comments ON posts.id = comments.post_id
+        FULL JOIN users ON users.id = posts.user_id
+        WHERE posts.user_id = $1
+        GROUP BY posts.id,comments.id;`,
       [req.params.id]
     )
       .then((data) => {
@@ -52,16 +52,16 @@ module.exports = (db) => {
       });
   });
 
-  //Get user created posts
+  //Get user liked posts
   router.get("/:id/likes", (req, res) => {
     db.query(
       `SELECT posts.*, avg(rating) as average_rating, count(likes.*) as total_likes,
-      comments.* as comments
-     FROM posts
-      LEFT JOIN ratings ON posts.id = ratings.post_id
-      LEFT JOIN likes ON posts.id = likes.post_id
-      LEFT JOIN comments ON posts.id = comments.post_id
-      LEFT JOIN users ON users.id = posts.user_id
+      comments.comment
+      FROM posts
+      FULL JOIN ratings ON posts.id = ratings.post_id
+      FULL JOIN likes ON posts.id = likes.post_id
+      FULL JOIN comments ON posts.id = comments.post_id
+      FULL JOIN users ON users.id = posts.user_id
       WHERE likes.user_id = $1
       GROUP BY posts.id,comments.id;`,
       [req.params.id]
