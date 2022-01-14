@@ -39,7 +39,7 @@ module.exports = (db) => {
         FULL JOIN users ON users.id = posts.user_id
         WHERE posts.user_id = $1
         GROUP BY posts.id,comments.id;`,
-      [req.params.id]
+      [req.session.user_id]
     )
       .then((data) => {
         console.log(data);
@@ -64,7 +64,7 @@ module.exports = (db) => {
       FULL JOIN users ON users.id = posts.user_id
       WHERE likes.user_id = $1
       GROUP BY posts.id,comments.id;`,
-      [req.params.id]
+      [req.session.user_id]
     )
       .then((data) => {
         console.log(data);

@@ -184,7 +184,7 @@ const createNewPostModalElements = () => {
       </select>
       </div>
       <br>
-    <button type="submit" class="btn submit-post-button">Submit</button>
+    <button type="submit" class="btn submit-post-button submit">Submit</button>
     </form>
   </div>`);
 };
@@ -202,7 +202,7 @@ const createUserModalElements = (user) => {
     <label for="password">Change password</label>
     <input id="password" name="password" class="user-text" placeholder="${password}" />
     <br>
-    <button type="submit" class="btn submit-user-button">Submit</button>
+    <button type="submit" class="btn submit-user-button submit">Submit</button>
     </form>
   </div>`);
 };
@@ -259,6 +259,7 @@ $(document).ready(() => {
       $(".new-post-btn").on("click", function () {
         $(".new-post-modal").show();
         $(".close-modal").click(closeNewPostModal);
+        $("")
       });
 
       //New post submission
@@ -279,6 +280,7 @@ $(document).ready(() => {
         };
         $(".new-post-text").val("");
         addPost(postData);
+        window.location.replace("http://localhost:8080/");
       });
     });
 
@@ -312,6 +314,12 @@ $(document).ready(() => {
     });
   });
 
+  //All submit buttons interactions
+  // $(".submit").click(() => {
+  //   alert("reloaded")
+  //   window.location.replace("http://localhost:8080/");
+  // });
+
   //User modal interactions
   $(".edit-profile").on("click", function () {
     //Get user
@@ -336,6 +344,7 @@ $(document).ready(() => {
           };
           updateUser(newUserData);
           closeUserModal();
+          window.location.replace("http://localhost:8080/");
         });
       });
   });

@@ -56,7 +56,7 @@ app.use("/users", usersRoutes(db));
 // Separate them into separate routes files (see above).
 
 app.get("/", (req, res) => {
-  req.session.user_id = "1";
+  // req.session.user_id = "1";
   res.render("index");
 });
 
