@@ -16,19 +16,30 @@
 
 .navbar-links {
   display: flex;
+  padding-left: 300px;
 
 }
+
+.user-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+}
+
 
 .user-icon {
   color: white;
   font-size: 30px;
+  padding: 20px;
   justify-content: flex-end;
   text-shadow: 4px 4px black;
+
 }
 
 
 .topnav {
-  height: 50px;
+  height: 70px;
   display: flex;
   position: fixed;
   top: 0;

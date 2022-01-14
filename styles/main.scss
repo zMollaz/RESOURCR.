@@ -24,10 +24,10 @@ body {
   min-height: 100%;
   margin: 0;
   padding: 0;
-  width: 80vw;
+  max-width: 70vw;
   position: absolute;
   left: 50%;
-  top: 25px;
+  top: 45px;
   transform: translateX(-50%);
 
   display: grid;
@@ -53,8 +53,8 @@ body {
   display: flex;
   color: white;
   position: fixed;
-  bottom: 6%;
-  right: 11%;
+  bottom: 2%;
+  right: 13%;
   cursor: pointer;
 }
 
@@ -115,6 +115,11 @@ body {
   padding-left: 10px;
 }
 
-// .heartHover :hover {
-// color: red;
-// }
+.heartHover {
+color: rgb(218, 59, 59);
+}
+
+.post_rating {
+  color: #e2df26;
+
+}
