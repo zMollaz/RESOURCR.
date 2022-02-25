@@ -1,4 +1,4 @@
-LHL Node Skeleton
+RESOURCR. - Pinterest for learners
 =========
 
 ## Features
