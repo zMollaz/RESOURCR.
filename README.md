@@ -15,7 +15,7 @@ RESOURCR. - Pinterest for learners
 
 ## Check out this GIF for a quick demo
 
-!["RESOURCR.GIF"](https://github.com/zMollaz/Resource-wall/blob/master/docs/RESOURCR.-%20GIF.gif)
+!["RESOURCR.GIF"](https://github.com/zMollaz/RESOURCR./blob/master/docs/RESOURCRGIF.gif?raw=true)
 ## Getting Started
 
 1. Create the `.env` by using `.env.example` as a reference: `cp .env.example .env`
