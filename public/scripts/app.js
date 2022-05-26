@@ -5,7 +5,7 @@
 $(".post-modal").hide();
 $(".new-post-modal").hide();
 $(".user-modal").hide();
-
+$("#user-selection").val();
 //Helper function
 const closeModal = () => {
   $(".modal-container").empty();
